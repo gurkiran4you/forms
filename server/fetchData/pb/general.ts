@@ -152,7 +152,7 @@ const downloadAndStorePdf = async (link: string, fileName: string) => {
     // In some scenarios, the link is concatenated twice accidently,have to account for that and fix
     const linkArr = link.split('https');
     if (link.startsWith('https') && linkArr.length > 2) {
-        link = `https:${linkArr[linkArr.length - 1]}`;
+        link = `https${linkArr[linkArr.length - 1]}`;
     }
     const response = await fetch(link,{
         headers: { 
