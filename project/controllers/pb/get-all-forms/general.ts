@@ -1,5 +1,5 @@
-import { PbGeneral, PbGeneralForm } from "../../schemas/pb/general.ts";
-import { PbGeneral_m } from "../../models/pb/general.ts";
+import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
+import { PbGeneral_m } from "../../../models/pb/general.ts";
 
 export const getGeneralForms = async() => {
     try {

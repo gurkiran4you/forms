@@ -1,5 +1,5 @@
-import { FormTypes_m } from "../../models/common.ts";
-import { PbTypes } from "../../schemas/pb/types.ts";
+import { FormTypes_m } from "../../../models/common.ts";
+import { PbTypes } from "../../../schemas/pb/types.ts";
 
 export const getPbFormTypes = async() => {
     try {

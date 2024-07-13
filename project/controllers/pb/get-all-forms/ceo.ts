@@ -1,6 +1,6 @@
-import { Form_m } from "../../models/common.ts";
-import { PbCeo_m } from "../../models/pb/ceo.ts";
-import { PbCeo, PbCeoForm } from "../../schemas/pb/ceo.ts";
+import { Form_m } from "../../../models/common.ts";
+import { PbCeo_m } from "../../../models/pb/ceo.ts";
+import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
 
 export const getCeoForms = async({response} : {response: any}) => {
     try {

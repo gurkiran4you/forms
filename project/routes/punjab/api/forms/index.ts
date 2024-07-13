@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
-import { getPbCategoryTitles } from "../../../../controllers/pb/categoryTitles.ts";
-import { getPbFormsForTitle } from "../../../../controllers/pb/formsforSelectedTitle.ts";
+import { getPbCategoryTitles } from "../../../../controllers/pb/get-dropdown-data/categoryTitles.ts";
+import { getPbFormsForTitle } from "../../../../controllers/pb/get-dropdown-data/formsforSelectedTitle.ts";
 
 export const handler: Handlers = {
     async POST(req, _ctx) {
