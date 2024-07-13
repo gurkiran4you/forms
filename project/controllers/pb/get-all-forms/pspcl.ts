@@ -1,6 +1,6 @@
-import { Form_m, NestedGroup_m } from "../../models/common.ts";
-import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../schemas/pb/pspcl.ts";
-import { PbPspcl_m } from "../../models/pb/pspcl.ts";
+import { Form_m, NestedGroup_m } from "../../../models/common.ts";
+import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../../schemas/pb/pspcl.ts";
+import { PbPspcl_m } from "../../../models/pb/pspcl.ts";
 
 export const getPspclForms = async({response} : {response: any}) => {
     try {

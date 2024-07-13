@@ -1,8 +1,8 @@
 
-import { NestedGroup_m } from "../../models/common.ts";
-import { PbCeo, PbCeoForm } from "../../schemas/pb/ceo.ts";
-import { PbGeneral, PbGeneralForm } from "../../schemas/pb/general.ts";
-import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../schemas/pb/pspcl.ts";
+import { NestedGroup_m } from "../../../models/common.ts";
+import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
+import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
+import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../../schemas/pb/pspcl.ts";
 
 export async function getPbFormsForTitle(category: string, title: string) {
     try {
