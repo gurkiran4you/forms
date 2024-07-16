@@ -1,6 +1,7 @@
 import { Form_m, NestedGroup_m } from "../../../models/common.ts";
 import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../../schemas/pb/pspcl.ts";
 import { PbPspcl_m } from "../../../models/pb/pspcl.ts";
+import logger from "../../../logs/log.ts";
 
 export const getPspclForms = async({response} : {response: any}) => {
     try {
@@ -34,29 +35,13 @@ export const getPspclForms = async({response} : {response: any}) => {
             });
         }
 
-        // // at this point, nested group only contains form ids, we need to grab the acutal ones 
-        // for(let i = 0; i < punjabPspclForms.length; i++) {
-        //     if (punjabPspclForms[i].nestedGroups.length > 0) {
-        //         // console.log('hi');
-        //         for(let j = 0; j < punjabPspclForms[i].nestedGroups.length; j ++) {
-        //             const formIds = punjabPspclForms[i].nestedGroups[j].forms as unknown as Form_m[]; 
-        //             const forms = allForms.filter(form => formIds.includes(form.id));
-        //             punjabPspclForms[i].nestedGroups[j].forms = forms as Form_m[];
-        //             console.log(punjabPspclForms[i].nestedGroups[j].forms)
-        //         }
-        //     }
-        // }
-
         response.body = {
             punjabPspclForms
         }
         return;
     }
     catch (err) {
-        response.body = {
-          success: false,
-          msg: err.toString(),
-        };
-        return;
+        logger.error(`Unable to get all pspcl forms. Error: ${err}`)
+        return null;
       }
 }

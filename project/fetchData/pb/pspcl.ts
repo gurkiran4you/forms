@@ -7,8 +7,8 @@ import { normalize } from "https://deno.land/std@0.224.0/url/normalize.ts";
 import * as path from "jsr:@std/path";
 import { PbPspcl, PbPspclForm, PbPspclNestedGroup} from "../../schemas/pb/pspcl.ts";
 import { Types, startSession } from 'npm:mongoose@^6.7';
-import { logger } from "../../logs/log.ts";
 import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
+import logger from "../../logs/log.ts";
 
 
 const BASE_URL = 'https://pspcl.in/';
@@ -200,24 +200,30 @@ const initiatePspclPbStoreFiles = async () => {
 }
 
 const downloadAndStorePdf = async (link: string, fileName: string) => {
-    const response = await fetch(link,{
-        headers: { 
-          "Accept": "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    try {
+
+        const response = await fetch(link,{
+            headers: { 
+            "Accept": "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            }
+        });
+
+        if (response.status != STATUS_CODE.OK) {
+            logger.error(`Unable to fetch the file: ${link}`);
+            return;
         }
-      });
 
-    if (response.status != STATUS_CODE.OK) {
-        logger.error(`Unable to fetch the file: ${link}`);
-        return;
+        const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+        const storeDir = path.join(__dirname, '../../storeFiles/pb/pspcl');
+    
+        await Deno.create(`${storeDir}/${fileName}`);
+        const file = await Deno.open(`${path.join(__dirname, '../../storeFiles/pb/pspcl')}/${fileName}`, { create: true, write: true, read: true })
+        if (response.body) {
+            const reader = readerFromStreamReader(response.body.getReader());
+            await copy(reader, file);
+         }
+        file.close();
+    } catch(e) {
+        logger.error(`Unable to safe pdf file for Punjab pspcl forms. Link:${link}. Error is: ${e}`)
     }
-    const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
-    const storeDir = path.join(__dirname, '../../storeFiles/pb/pspcl');
-
-    await Deno.create(`${storeDir}/${fileName}`);
-    const file = await Deno.open(`${path.join(__dirname, '../../storeFiles/pb/pspcl')}/${fileName}`, { create: true, write: true, read: true })
-    if (response.body) {
-        const reader = readerFromStreamReader(response.body.getReader());
-        await copy(reader, file);
-     }
-    file.close();
 }

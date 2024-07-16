@@ -1,5 +1,7 @@
+import logger from "../../../logs/log.ts";
 import { PbCeo } from "../../../schemas/pb/ceo.ts";
 import { PbGeneral } from "../../../schemas/pb/general.ts";
+import { PbPseb } from "../../../schemas/pb/pseb.ts";
 import { PbPspcl } from "../../../schemas/pb/pspcl.ts";
 
 export async function getPbCategoryTitles(category: string) {
@@ -27,18 +29,18 @@ export async function getPbCategoryTitles(category: string) {
                     return general.map(c => c.title ?? '')
                 }
             case "Pseb": {
-                    const general = await PbGeneral.find();
+                    const general = await PbPseb.find();
                     if (general == null) {
                         return;
                     }
                     return general.map(c => c.title ?? '')
                 }
             default:
-                break;
+                return [];
         }
     }
     catch (err) {
-        console.log(err);
+        logger.error(`Unable to get dropdown data for ${category} forms. Error: ${err}`)
         return null;
       }
 } 

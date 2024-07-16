@@ -1,11 +1,11 @@
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import { STATUS_CODE } from "jsr:@oak/commons/status";
-import { logger } from "../../logs/log.ts";
 import { PbPseb, PbPsebForm } from "../../schemas/pb/pseb.ts";
 import { Types, startSession } from "npm:mongoose@^6.7";
 import * as path from "jsr:@std/path";
 import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
 import { PbPseb_m } from "../../models/pb/pseb.ts";
+import logger from "../../logs/log.ts";
 
 
 
@@ -137,7 +137,7 @@ async function saveTitlesToDB() {
 }
 
 export async function initiatePsebPb() {
-    //await initiatePsebPbFetchData();
+    await initiatePsebPbFetchData();
     await initiatePsebPbStoreFiles();
 }
 
@@ -202,26 +202,30 @@ const initiatePsebPbStoreFiles = async() => {
 }
 
 const downloadAndStorePdf = async (link: string, fileName: string) => {
+    try {
+        const response = await fetch(link,{
+            headers: { 
+                "Accept": "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            }
+            });
 
-   const response = await fetch(link,{
-       headers: { 
-         "Accept": "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-       }
-     });
+        if (response.status != STATUS_CODE.OK) {
+            logger.error(`Unable to fetch the file: ${link}`);
+            return;
+        }
 
-   if (response.status != STATUS_CODE.OK) {
-       logger.error(`Unable to fetch the file: ${link}`);
-       return;
+       const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+       const storeDir = path.join(__dirname, '../../storeFiles/pb/pseb');
+    
+       await Deno.create(`${storeDir}/${fileName}`);
+       const file = await Deno.open(`${path.join(__dirname, '../../storeFiles/pb/pseb')}/${fileName}`, { create: true, write: true, read: true })
+       if (response.body) {
+           const reader = readerFromStreamReader(response.body.getReader());
+           await copy(reader, file);
+        }
+       file.close();
+   } catch(e) {
+    logger.error(`Unable to safe pdf file for Punjab pseb forms. Link:${link}. Error is: ${e}`)
    }
-   const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
-   const storeDir = path.join(__dirname, '../../storeFiles/pb/pseb');
-
-   await Deno.create(`${storeDir}/${fileName}`);
-   const file = await Deno.open(`${path.join(__dirname, '../../storeFiles/pb/pseb')}/${fileName}`, { create: true, write: true, read: true })
-   if (response.body) {
-       const reader = readerFromStreamReader(response.body.getReader());
-       await copy(reader, file);
-    }
-   file.close();
 }
 

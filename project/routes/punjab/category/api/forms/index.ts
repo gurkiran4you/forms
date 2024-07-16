@@ -1,6 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
-import { getPbCategoryTitles } from "../../../../controllers/pb/get-dropdown-data/categoryTitles.ts";
-import { getPbFormsForTitle } from "../../../../controllers/pb/get-dropdown-data/formsforSelectedTitle.ts";
+import { getPbCategoryTitles } from "../../../../../controllers/pb/get-dropdown-data/category-titles.ts";
+import { getPbFormsForTitle } from "../../../../../controllers/pb/get-dropdown-data/forms-for-selected-title.ts";
+import { getPbCategorySubTitles } from "../../../../../controllers/pb/get-dropdown-data/sub-category-titles.ts";
 
 export const handler: Handlers = {
     async POST(req, _ctx) {
@@ -15,6 +16,12 @@ export const handler: Handlers = {
           const { title, category } = body;
           // fetch forms for this title
           const formsForTitle = await getPbFormsForTitle(category, title);
+          return new Response(JSON.stringify(formsForTitle));
+        }
+        if (body.dropdown === 'sub-title') {
+          const { title, category } = body;
+          // fetch forms for this title
+          const formsForTitle = await getPbCategorySubTitles(category, title);
           return new Response(JSON.stringify(formsForTitle));
         }
         return new Response(null);

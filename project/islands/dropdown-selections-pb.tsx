@@ -11,11 +11,14 @@ import { Base64 } from "https://deno.land/x/bb64@1.1.0/mod.ts";
 type DropdownSelectForms = {
     formTypes: FormTypes_m,
 }
-const forms = signal({forms: [], nestedGroupsRes: []} as { forms: Form_m[], nestedGroupsRes: NestedGroup_m[] });
 
+const forms = signal({forms: [], nestedGroupsRes: []} as { forms: Form_m[], nestedGroupsRes: NestedGroup_m[] });
+const subCategory = ['Pseb'];
 export function DropdownSelectionPb(props: JSX.HTMLAttributes<HTMLSelectElement> & DropdownSelectForms) {
     const [category, setCategory] = useState('');
     const [title, setTitle] = useState('');
+    const [subTitle, setSubTitle] = useState('');
+    const [subTitleOptions, setSubTitleOptions] = useState([] as string[]);
     const [titleOptions, setTitleOptions] = useState([] as string[]);
 
     const setCategoryField = async (e: Event) => {
@@ -43,6 +46,23 @@ export function DropdownSelectionPb(props: JSX.HTMLAttributes<HTMLSelectElement>
         const response = await fetch('/punjab/api/forms', {
             method: 'POST',
             body: JSON.stringify({title: element.value, category, dropdown: 'title'})
+        });
+        if (subCategory.includes(category)) {
+            const subTitleOptions = await response.json() as string[];
+            setSubTitleOptions([...subTitleOptions]);
+        } else {
+            const fetchedForms = await response.json() as { forms: Form_m[], nestedGroupsRes: NestedGroup_m[] };
+            forms.value = fetchedForms;
+        }
+    }
+    const setSubTitleField = async (e: Event) => {
+        e.preventDefault();
+        const element = e.target as HTMLSelectElement;
+        setSubTitle(element.value);
+
+        const response = await fetch('/punjab/api/forms', {
+            method: 'POST',
+            body: JSON.stringify({title: element.value, category, dropdown: 'sub-title'})
         });
         const fetchedForms = await response.json() as { forms: Form_m[], nestedGroupsRes: NestedGroup_m[] };
         forms.value = fetchedForms;
@@ -116,6 +136,17 @@ export function DropdownSelectionPb(props: JSX.HTMLAttributes<HTMLSelectElement>
                         selectFor="pb_title" 
                         selectedOption={title} 
                         options={titleOptions} />
+                        {
+                            subCategory.includes(category) && (
+                            <Select 
+                                label="title"
+                                width="w-full"
+                                onChange={setSubTitleField} 
+                                selectFor="pb_sub_title" 
+                                selectedOption={subTitle} 
+                                options={subTitleOptions} /> )
+                        }
+
                 </form>
             </section>
             <section 

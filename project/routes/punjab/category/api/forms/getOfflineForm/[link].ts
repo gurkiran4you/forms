@@ -1,5 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
-import { getOfflineFormPb } from "../../../../../controllers/pb/getOfflineForm.ts";
+import { getOfflineFormPb } from "../../../../../../controllers/pb/get-offline-form.ts";
 
 export const handler: Handlers = {
   async GET(req, ctx): Promise<Response> {

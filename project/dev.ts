@@ -2,27 +2,40 @@
 
 import dev from "$fresh/dev.ts";
 import config from "./fresh.config.ts";
-
-import "$std/dotenv/load.ts";
-
+import { prettyBenchmarkResult, prettyBenchmarkProgress, prettyBenchmarkDown, prettyBenchmarkHistory } from 'https://deno.land/x/pretty_benching@v0.3.3/mod.ts';
+import { Cron } from "https://deno.land/x/croner@8.1.0/dist/croner.js";
 import mongoose from "npm:mongoose@^6.7";
 import { initiateGeneralPb } from "./fetchData/pb/general.ts";
 import { initiateCategoriesPb } from "./fetchData/pb/categories.ts";
 import { initiateCeoPb } from "./fetchData/pb/ceo.ts";
 import { initiatePspclPb } from "./fetchData/pb/pspcl.ts";
+import { runBenchmarks } from "https://deno.land/x/pretty_benching@v0.3.3/deps.ts";
+import { bench } from "https://deno.land/std@0.91.0/testing/bench.ts";
+import { initiatePsebPb } from "./fetchData/pb/pseb.ts";
 
 await mongoose.connect("mongodb://localhost:27017");
 
 // cron job 
-// Deno.cron("Fetching all text and links", "* * * * *", async () => {
-// await initiateCategoriesPb();
-// await initiateGeneralPb();
-// await initiatePspclPb();
-// await initiateCeoPb();
-// await initiateCategoriesPb();
-// await initiatePsebPb();
- // console.log("This will print once a minute.");
-// });
+//new Cron("*/10 * * * * *", () => {
+    // await initiateGeneralPb();
+    // await initiateCategoriesPb();
+    // await initiatePspclPb();
+    // await initiateCeoPb();
+    // await initiatePsebPb();
+// console.log("This will print after 5 seconds");
+//});
+// bench({
+//     name: 'test',
+//     func: async (b) => {
+
+//         b.start();
+//         await initiateCeoPb();
+//         b.stop();
+//     }
+// })
+
+// await runBenchmarks({ silent: true }, prettyBenchmarkProgress())
+
 
 
 await dev(import.meta.url, "./main.ts", config);

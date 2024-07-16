@@ -1,5 +1,6 @@
 import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
 import { PbGeneral_m } from "../../../models/pb/general.ts";
+import logger from "../../../logs/log.ts";
 
 export const getGeneralForms = async() => {
     try {
@@ -20,7 +21,7 @@ export const getGeneralForms = async() => {
         return punjabGeneralForms;
     }
     catch (err) {
-        console.log(err);
+        logger.error(`Unable to get all general forms. Error: ${err}`)
         return null;
       }
 }
