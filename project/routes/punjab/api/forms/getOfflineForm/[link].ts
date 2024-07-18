@@ -1,16 +1,28 @@
 import { Handlers } from "$fresh/server.ts";
-import { getOfflineFormPb } from "../../../../../controllers/pb/getOfflineForm.ts";
+import { getPbFormTypes } from "../../../../../controllers/pb/get-form-types/types.ts";
+import { getOfflineFormPb } from "../../../../../controllers/pb/get-offline-form.ts";
 
 export const handler: Handlers = {
   async GET(req, ctx): Promise<Response> {
     const link = ctx.params.link;
     const url = new URL(req.url);
-    const category = url.searchParams.get('category') ?? '';
-    console.log(link, category);
-    const pdf = await getOfflineFormPb(link, category);
-    if (pdf == null) {
+    const categoryId = url.searchParams.get('category') ?? '';
+    const allPbFormTypes = await getPbFormTypes() ?? [];
+    const categoryType = allPbFormTypes.find(type => type.id === categoryId);
+    if (categoryType == null) {
+      return ctx.render(); // 404
+    }
+    const file = await getOfflineFormPb(link, categoryType.title);
+    if (file == null) {
       return new Response(JSON.stringify({payload: null}));
     }
-    return new Response(pdf);
+    if (link.includes('.mp3')) {
+      return new Response(file, {
+        headers: {
+          'Content-Type': 'audio/mpeg'
+        }
+      })
+    }
+    return new Response(file);
   },
 };

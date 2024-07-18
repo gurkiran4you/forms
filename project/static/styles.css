@@ -5,10 +5,10 @@
 ::backdrop {
     background-image: linear-gradient(
       45deg,
-      magenta,
-      rebeccapurple,
-      dodgerblue,
-      green
+      rgb(175, 155, 175),
+      rgb(142, 129, 155),
+      rgb(147, 184, 222),
+      rgb(100, 131, 100)
     );
     opacity: 0.75;
   }

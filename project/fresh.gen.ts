@@ -6,10 +6,16 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_layout from "./routes/_layout.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $punjab_layout from "./routes/punjab/_layout.tsx";
 import * as $punjab_api_forms_getOfflineForm_link_ from "./routes/punjab/api/forms/getOfflineForm/[link].ts";
 import * as $punjab_api_forms_index from "./routes/punjab/api/forms/index.ts";
+import * as $punjab_category_c_ from "./routes/punjab/category/[c].tsx";
+import * as $punjab_category_slug_title_t_ from "./routes/punjab/category/[slug]/title/[t].tsx";
+import * as $punjab_category_slug_title_t_slug_subtitle_st_ from "./routes/punjab/category/[slug]/title/[t_slug]/subtitle/[st].tsx";
 import * as $punjab_index from "./routes/punjab/index.tsx";
-import * as $dropdown_selections_pb from "./islands/dropdown-selections-pb.tsx";
+import * as $dialog_pb_offline from "./islands/dialog-pb-offline.tsx";
+import * as $dropdown_selection_pb from "./islands/dropdown-selection-pb.tsx";
+import * as $form_pb from "./islands/form-pb.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -18,13 +24,21 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/_layout.tsx": $_layout,
     "./routes/index.tsx": $index,
+    "./routes/punjab/_layout.tsx": $punjab_layout,
     "./routes/punjab/api/forms/getOfflineForm/[link].ts":
       $punjab_api_forms_getOfflineForm_link_,
     "./routes/punjab/api/forms/index.ts": $punjab_api_forms_index,
+    "./routes/punjab/category/[c].tsx": $punjab_category_c_,
+    "./routes/punjab/category/[slug]/title/[t].tsx":
+      $punjab_category_slug_title_t_,
+    "./routes/punjab/category/[slug]/title/[t_slug]/subtitle/[st].tsx":
+      $punjab_category_slug_title_t_slug_subtitle_st_,
     "./routes/punjab/index.tsx": $punjab_index,
   },
   islands: {
-    "./islands/dropdown-selections-pb.tsx": $dropdown_selections_pb,
+    "./islands/dialog-pb-offline.tsx": $dialog_pb_offline,
+    "./islands/dropdown-selection-pb.tsx": $dropdown_selection_pb,
+    "./islands/form-pb.tsx": $form_pb,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

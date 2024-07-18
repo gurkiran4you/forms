@@ -1,38 +1,33 @@
 
+import logger from "../../../logs/log.ts";
 import { NestedGroup_m } from "../../../models/common.ts";
 import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
 import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
 import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../../schemas/pb/pspcl.ts";
 
-export async function getPbFormsForTitle(category: string, title: string) {
+export async function getPbFormsForTitle(category: string, id: string) {
     try {
         switch (category) {
-            case "Punjab Gov": {
-                    const general = await PbGeneral.find();
+            case "general": {
+                    const general = await PbGeneral.findById(id);
                     if (general == null) {
                         return;
                     }
-                    const found = general.find(g => g.title === title);
-                    if (found == null) {
-                        return;
-                    }
-                    const formIds = found.forms;
-                    const forms = await PbGeneralForm.find().where('_id').in(formIds).exec();
-                    return {forms, nestedGroupsRes: []};
+                    const formIds = general.forms;
+                    const forms = await PbGeneralForm.find().where('_id').in(formIds).exec() ?? [];
+                    const formsRes = forms.map(form => ({ id: form.id, name: form.name ?? '', link: form.link ?? '' }));
+                    return {formsRes, nestedGroupsRes: []};
                 }
-            case "Pspcl": {
+            case "pspcl": {
                     const nestedGroupsRes: NestedGroup_m[] = [];
-                    const pspcl = await PbPspcl.find();
+                    const pspcl = await PbPspcl.findById(id);
                     if (pspcl == null) {
                         return;
                     }
-                    const found = pspcl.find(g => g.title === title);
-                    if (found == null) {
-                        return;
-                    }
-                    const formIds = found.forms;
-                    const nestedGroupIds = found.nestedGroups;
-                    const forms = await PbPspclForm.find().where('_id').in(formIds).exec();
+                    const formIds = pspcl.forms;
+                    const nestedGroupIds = pspcl.nestedGroups;
+                    const forms = await PbPspclForm.find().where('_id').in(formIds).exec() ?? [];
+                    const formsRes = forms.map(form => ({ id: form.id, name: form.name ?? '', link: form.link ?? '' }));
                     if (nestedGroupIds && nestedGroupIds.length > 0) {
                         const nestedGroups =  await PbPspclNestedGroup.find().where('_id').in(nestedGroupIds).exec();
                         for(let i = 0; i < nestedGroups.length; i++) {
@@ -47,22 +42,19 @@ export async function getPbFormsForTitle(category: string, title: string) {
                         }
                     }
 
-                    return {forms, nestedGroupsRes};
+                    return {formsRes, nestedGroupsRes};
                 }
-            case "Ceo": {
-                    const ceo = await PbCeo.find();
+            case "ceo": {
+                    const ceo = await PbCeo.findById(id);
                     if (ceo == null) {
                         return;
                     }
-                    const found = ceo.find(g => g.title === title);
-                    if (found == null) {
-                        return;
-                    }
-                    const formIds = found.forms;
+                    const formIds = ceo.forms;
                     const forms = await PbCeoForm.find().where('_id').in(formIds).exec();
-                    return {forms, nestedGroupsRes: []};
+                    const formsRes = forms.map(form => ({ id: form.id, name: form.name ?? '', link: form.link ?? '' }));
+                    return {formsRes, nestedGroupsRes: []};
                 }
-            case "Pseb": {
+            case "pseb": {
                     const general = await PbGeneral.find();
                     if (general == null) {
                         return;
@@ -75,6 +67,7 @@ export async function getPbFormsForTitle(category: string, title: string) {
     }
     catch (err) {
         console.log(err);
+        logger.error(`Unable to get form for selected category: ${category} and title id: ${id}. Error: ${err}`)
         return null;
       }
 } 

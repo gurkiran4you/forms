@@ -1,11 +1,13 @@
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import { STATUS_CODE } from "jsr:@oak/commons/status";
-import { logger } from "../../logs/log.ts";
-import { PbPseb, PbPsebForm } from "../../schemas/pb/pseb.ts";
+import { PbPseb, PbPsebForm, PbPsebSyllabus } from "../../schemas/pb/pseb.ts";
 import { Types, startSession } from "npm:mongoose@^6.7";
 import * as path from "jsr:@std/path";
 import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
 import { PbPseb_m } from "../../models/pb/pseb.ts";
+import logger from "../../logs/log.ts";
+import { Form_m } from "../../models/common.ts";
+import { normalizeFilename } from "../../utils/file-normalizer.ts";
 
 
 
@@ -48,42 +50,29 @@ async function extractSyllabus(html: string) {
     const sessionForm = await startSession();
     sessionForm.startTransaction();
 
+    await PbPsebSyllabus.collection.drop();
     await PbPsebForm.collection.drop();
     for(let i = 0; i < pbPseb.length; i++) {
-    // fetch the url of syllabusUrl
         const url = pbPseb[i].syllabusUrl; // fetch url
         if (url == null || url == '') {
             continue;
         }
         const response = await fetchHTML(url);
-        // At this point , we have the html text of first link
-        // we need to extract out Class and subjects
         const $ = cheerio.load(response);
         const classNameTitles = $('.acc__title');
-        const subjects  = $('.acc__panel');// give us all subjects
+        const subjects  = $('.acc__panel');
+
+        const syllabusIDs: Types.ObjectId[] = [];
         for(let y = 0; y < classNameTitles.length; y++) {
             const formIDs: Types.ObjectId[] = [];
             const className = $(classNameTitles[y]).text();
-            // The data list is inconsistent
-            // Can contain only li , only p tag or a combination of both
-            // const subjectForms = $(subjects[y]).find('li');
-            // const subjectFormsStandAlone = $(subjects[y]).find('> p');
-            // const subjectFormsLinks =Array.from(subjectForms.map((i, form) =>  $(form).find('a')));
-            // const subjectFormsLinksStandAlone = Array.from(subjectFormsStandAlone.map((i, form) => $(form).find('a')))
-
-            // const totalLinks = subjectFormsLinks.concat(subjectFormsLinksStandAlone);
-            const totalLinks = Array.from($(subjects[y]).find('a'));
-            //console.log(totalLinks.length);
-
-            //console.log(subjectFormsLinks.length, subjectFormsLinksStandAlone.length);
-
-           // console.log(subjectForms.length, subjectFormsStandAlone.length);
-             const allSubjects = totalLinks.map((link) => ({ name: $(link).text(), link: $(link).attr('href') ?? ''  }));
+            const totalLinks = $(classNameTitles[y]).next('.acc__panel').find('a');
+            const allSubjects = totalLinks.map(function() { return ({ name: $(this).text(), link: $(this).attr('href') ?? ''  }) }).get();
+            console.log(allSubjects.length);
             pbPseb[i].syllabus.push({
                 className,
                 subjects: allSubjects,
             })
-
             // db start
             for(let k = 0; k < allSubjects.length; k++) {
                 const createdForm = await PbPsebForm.create({
@@ -92,22 +81,24 @@ async function extractSyllabus(html: string) {
                 })
                 formIDs.push(createdForm.id);
             }
-
-            // search record by title
-            const savedTitle = pbPseb[i].title.trim();
-            const foundRecord = await PbPseb.findOne({ title: savedTitle }).exec();
-            if (foundRecord == null) {
-                console.log('record not found');
-                continue;
-            }
-
-            foundRecord?.syllabus.push({
+            // create syllabi
+            const createdSyllabus = await PbPsebSyllabus.create({
                 class: className,
                 subject: formIDs,
             })
 
-            foundRecord.save();
+            syllabusIDs.push(createdSyllabus.id);
         }
+        // search record by title
+        const savedTitle = pbPseb[i].title.trim();
+        const foundRecord = await PbPseb.findOne({ title: savedTitle }).exec();
+        if (foundRecord == null) {
+            console.log('record not found');
+            continue;
+        }
+        foundRecord.syllabus.push(...syllabusIDs);
+
+        foundRecord.save();
     }
     await sessionForm.commitTransaction();
     sessionForm.endSession();
@@ -125,7 +116,7 @@ async function saveTitlesToDB() {
             // Save title and syllabus content to database
             await PbPseb.create({
                 title: title.trim(),
-                syllabus: [],
+                syllabus: []
             });
         }
 
@@ -137,7 +128,7 @@ async function saveTitlesToDB() {
 }
 
 export async function initiatePsebPb() {
-    //await initiatePsebPbFetchData();
+    await initiatePsebPbFetchData();
     await initiatePsebPbStoreFiles();
 }
 
@@ -162,7 +153,6 @@ export async function initiatePsebPbFetchData() {
     
         try{
             await Deno.mkdir(path.join(storeDir, 'pb'));
-            console.log('here?');
         } catch(err) {
             if (err instanceof Deno.errors.AlreadyExists) {
                 Deno.writeTextFileSync(path.join(storeDir, 'pb', 'psebPb.json'), JSON.stringify(pbPseb));
@@ -186,42 +176,44 @@ const initiatePsebPbStoreFiles = async() => {
     if (allforms == null || !Array.isArray(allforms) || (Array.isArray(allforms) && allforms.length === 0)) {
         return;
     }
-    console.log(allforms.length);
     for(let i = 0; i < allforms.length; i++) {
-        console.log(allforms[i].link)
         if (allforms[i].link) {
-            const delimited = (allforms[i] as any).link.split('/');
-            const fileName = delimited[delimited.length-1];
-            await downloadAndStorePdf((allforms[i] as any).link, fileName
-            );
+            let filename = allforms[i].link;
+            if (filename == null || filename === '') {
+               continue;
+            }
+            filename = normalizeFilename(filename);
+            console.log(filename);
+            await downloadAndStorePdf((allforms[i] as any).link, filename);
         }
     }
-    // await downloadAndStorePdf('https://pspcl.in/media/pdf/10007/family-pension-instructions.docx', 
-    //     'test.docx'
-    // );
 }
 
 const downloadAndStorePdf = async (link: string, fileName: string) => {
+    try {
+        const response = await fetch(link,{
+            headers: { 
+                "Accept": "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            }
+            });
 
-   const response = await fetch(link,{
-       headers: { 
-         "Accept": "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-       }
-     });
+        if (response.status != STATUS_CODE.OK) {
+            logger.error(`Unable to fetch the file: ${link}`);
+            return;
+        }
 
-   if (response.status != STATUS_CODE.OK) {
-       logger.error(`Unable to fetch the file: ${link}`);
-       return;
+       const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+       const storeDir = path.join(__dirname, '../../storeFiles/pb/pseb');
+    
+       await Deno.create(`${storeDir}/${fileName}`);
+       const file = await Deno.open(`${path.join(__dirname, '../../storeFiles/pb/pseb')}/${fileName}`, { create: true, write: true, read: true })
+       if (response.body) {
+           const reader = readerFromStreamReader(response.body.getReader());
+           await copy(reader, file);
+        }
+       file.close();
+   } catch(e) {
+    logger.error(`Unable to safe pdf file for Punjab pseb forms. Link:${link}. Error is: ${e}`)
    }
-   const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
-   const storeDir = path.join(__dirname, '../../storeFiles/pb/pseb');
-
-   await Deno.create(`${storeDir}/${fileName}`);
-   const file = await Deno.open(`${path.join(__dirname, '../../storeFiles/pb/pseb')}/${fileName}`, { create: true, write: true, read: true })
-   if (response.body) {
-       const reader = readerFromStreamReader(response.body.getReader());
-       await copy(reader, file);
-    }
-   file.close();
 }
 

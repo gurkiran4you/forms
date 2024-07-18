@@ -1,6 +1,5 @@
 import { Types } from 'npm:mongoose@^6.7';
-
-export type FormTypes_m = string[];
+import { FormTypes } from "../fetchData/pb/categories.ts";
 
 export type Form_m = {
     id?: Types.ObjectId,
@@ -14,3 +13,5 @@ export type NestedGroup_m = {
     forms?: Types.ObjectId[],
     nestedForms?: Form_m[],
 }
+
+export type DropdownOption = { title: string | FormTypes, id: string }
