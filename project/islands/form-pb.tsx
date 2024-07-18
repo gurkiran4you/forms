@@ -26,7 +26,6 @@ export function PunjabForm(props: DropdownSelectForms) {
         await downloadOfflineLink(link)
     } 
     const downloadOfflineLink = async (link: string) => {
-        console.log(link);
         let normalizedName = '';
         if (category.toLowerCase() === 'ceo') {
             const params = link.split('?')[1];

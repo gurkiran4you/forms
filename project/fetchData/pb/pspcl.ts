@@ -185,9 +185,7 @@ const initiatePspclPbStoreFiles = async () => {
     if (allforms == null || !Array.isArray(allforms) || (Array.isArray(allforms) && allforms.length === 0)) {
         return;
     }
-    console.log(allforms.length);
     for(let i = 0; i < allforms.length; i++) {
-        console.log(allforms[i].link)
         if (allforms[i].link) {
             let filename = allforms[i].link;
             if (filename == null || filename === '') {
