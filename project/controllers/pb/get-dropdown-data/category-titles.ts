@@ -7,33 +7,33 @@ import { PbPspcl } from "../../../schemas/pb/pspcl.ts";
 export async function getPbCategoryTitles(category: string) {
     try {
         switch (category) {
-            case "Punjab Gov": {
+            case "general": {
                     const general = await PbGeneral.find();
                     if (general == null) {
                         return;
                     }
-                    return general.map(c => c.title ?? '')
+                    return general.map(c => ({title: c.title ?? '', id: c.id}))
                 }
-            case "Pspcl": {
+            case "pspcl": {
                     const general = await PbPspcl.find();
                     if (general == null) {
                         return;
                     }
-                    return general.map(c => c.title ?? '')
+                    return general.map(c => ({title: c.title ?? '', id: c.id}))
                 }
-            case "Ceo": {
+            case "ceo": {
                     const general = await PbCeo.find();
                     if (general == null) {
                         return;
                     }
-                    return general.map(c => c.title ?? '')
+                    return general.map(c => ({title: c.title ?? '', id: c.id}))
                 }
-            case "Pseb": {
+            case "pseb": {
                     const general = await PbPseb.find();
                     if (general == null) {
                         return;
                     }
-                    return general.map(c => c.title ?? '')
+                    return general.map(c => ({title: c.title ?? '', id: c.id}))
                 }
             default:
                 return [];

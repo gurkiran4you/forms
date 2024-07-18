@@ -5,25 +5,32 @@ import logger from "../../logs/log.ts";
 export const getOfflineFormPb = async(formLink: string, category: string): Promise<Uint8Array | null> => {
     try {
         switch (category) {
-            case "Punjab Gov":
+            case "general":
                 {
                     const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
                     const storeDir = path.join(__dirname, '../../storeFiles/pb/general');
                     const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
                     return bytes;
                 }   
-            case "Pspcl":
+            case "pspcl":
                 {
                     const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
                     const storeDir = path.join(__dirname, '../../storeFiles/pb/pspcl');
                     const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
                     return bytes;
                 }   
-            case "Ceo":
+            case "ceo":
                 {
-                    console.log(formLink);
                     const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
                     const storeDir = path.join(__dirname, '../../storeFiles/pb/ceo');
+                    const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
+                    return bytes;
+                }   
+            case "pseb":
+                {
+                    const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+                    const storeDir = path.join(__dirname, '../../storeFiles/pb/pseb');
+                    console.log(path.join(`${storeDir}/${formLink}`));
                     const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
                     return bytes;
                 }   

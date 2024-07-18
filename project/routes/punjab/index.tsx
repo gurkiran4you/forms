@@ -2,19 +2,15 @@
 
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { getPbFormTypes } from "../../controllers/pb/get-form-types/types.ts";
-import { DropdownSelectionPb } from "../../islands/dropdown-selections-pb.tsx";
-import { FormTypes_m } from "../../models/common.ts";
-import { getPbCategoryTitles } from "../../controllers/pb/get-dropdown-data/category-titles.ts";
-import { getPbFormsForTitle } from "../../controllers/pb/get-dropdown-data/forms-for-selected-title.ts";
+import { DropdownSelectionPb } from "../../islands/dropdown-selection-pb.tsx";
+import { DropdownOption } from "../../models/common.ts";
 
 interface Data {
-    formTypes: FormTypes_m,
+    formTypes: DropdownOption[],
 }
 
 export const handler: Handlers<Data> = {
     async GET(_req, ctx) {
-        // For now only forms exist, later these db calls
-        // will be served after user selection
       const allPbFormTypes = await getPbFormTypes();
       if (allPbFormTypes == null) {
         return ctx.render({ formTypes: [] });
@@ -26,9 +22,15 @@ export const handler: Handlers<Data> = {
   
 export default function Home(props: PageProps<Data>) {
     const { formTypes } = props.data;
+
   return (
       <>
-        <DropdownSelectionPb formTypes={formTypes} />
+        <section class="bg-amber-100 flex flex-auto py-2">
+          <DropdownSelectionPb width="w-1/5" name="pb_category" options={formTypes} selectedOption={''} nextRoute="category"/>
+        </section>
+        <section class="flex flex-col px-8 relative min-h-screen min-h-lvh">
+          <div class="bg-wheat bg-no-repeat absolute opacity-10 -z-10 w-auto h-auto top-0 bottom-0 left-0 right-0 bg-cover"></div>
+        </section>
       </>
   );
 }

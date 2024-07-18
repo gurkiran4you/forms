@@ -1,20 +1,21 @@
 import logger from "../../../logs/log.ts";
-import { PbPseb } from "../../../schemas/pb/pseb.ts";
+import { PbPseb, PbPsebSyllabus } from "../../../schemas/pb/pseb.ts";
 
-export async function getPbCategorySubTitles(category: string, title: string) {
+export async function getPbCategorySubTitles(category: string, id: string) {
     try {
         switch (category) {
-            case "Pseb": {
-                    const pseb = await PbPseb.findOne({title: title.trim()});
+            case "pseb": {
+                    const pseb = await PbPseb.findById(id);
                     if (pseb == null) {
                         return;
                     }
-                    const syllabi = pseb.syllabus;
-
-                    return syllabi.map(s => s.class)
+                    const syllabiIds = pseb.syllabus;
+                    const syllabi = await PbPsebSyllabus.find().where('_id').in(syllabiIds).exec();
+                    const subTitles = syllabi.map(s => ({title: s.class ?? '', id: s.id}));
+                    return subTitles;
                 }
             default:
-                break;
+                return null
         }
     }
     catch (err) {

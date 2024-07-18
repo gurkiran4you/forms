@@ -1,7 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
-import { getPbCategoryTitles } from "../../../../../controllers/pb/get-dropdown-data/category-titles.ts";
-import { getPbFormsForTitle } from "../../../../../controllers/pb/get-dropdown-data/forms-for-selected-title.ts";
-import { getPbCategorySubTitles } from "../../../../../controllers/pb/get-dropdown-data/sub-category-titles.ts";
+import { getPbCategoryTitles } from "../../../../controllers/pb/get-dropdown-data/category-titles.ts";
+import { getPbFormsForTitle } from "../../../../controllers/pb/get-dropdown-data/forms-for-selected-title.ts";
+import { getPbCategorySubTitles } from "../../../../controllers/pb/get-dropdown-data/sub-category-titles.ts";
 
 export const handler: Handlers = {
     async POST(req, _ctx) {

@@ -8,6 +8,7 @@ import { Types, startSession } from "npm:mongoose@^6.7";
 import { PbGeneral, PbGeneralForm } from "../../schemas/pb/general.ts";
 import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
 import logger from "../../logs/log.ts";
+import { normalizeFilename } from "../../utils/file-normalizer.ts";
 
 
 
@@ -135,11 +136,12 @@ const initiateGeneralPbStoreFiles = async() => {
      }
      for(let i = 0; i < allforms.length; i++) {
          if (allforms[i].link) {
-             const delimited = (allforms[i] as any).link.split('/');
-             const fileName = delimited[delimited.length-1];
-             console.log(fileName);
-             await downloadAndStorePdf((allforms[i] as any).link, fileName
-             );
+             let filename = allforms[i].link;
+             if (filename == null || filename === '') {
+                continue;
+             }
+             filename = normalizeFilename(filename);
+             await downloadAndStorePdf((allforms[i] as any).link, filename);
          }
      }
 }

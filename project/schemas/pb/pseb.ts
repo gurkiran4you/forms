@@ -6,16 +6,21 @@ import FormSchema from "../common/form.ts";
 const PbPsebSchema = new Schema({
   title: { type: String },
   syllabus: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Syllabus', 
+    }],
+});
+const PbPsebSyllabusSchema = new Schema({
     class: { type: String },
     subject: [{
         type: Schema.Types.ObjectId,
-        ref: 'Form', 
+        ref: 'Form',
       }]
-    }],
 });
 
 // Export model.
 const PbPseb =  model("PbPseb", PbPsebSchema, 'PbPseb');
+const PbPsebSyllabus =  model("PbPsebSyllabus", PbPsebSyllabusSchema, 'PbPsebSyllabi');
 const PbPsebForm =  model("PbPsebForm", FormSchema);
 
-export { PbPseb, PbPsebForm }
+export { PbPseb, PbPsebForm, PbPsebSyllabus }
