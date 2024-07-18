@@ -30,7 +30,6 @@ export const getOfflineFormPb = async(formLink: string, category: string): Promi
                 {
                     const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
                     const storeDir = path.join(__dirname, '../../storeFiles/pb/pseb');
-                    console.log(path.join(`${storeDir}/${formLink}`));
                     const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
                     return bytes;
                 }   

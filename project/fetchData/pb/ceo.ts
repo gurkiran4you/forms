@@ -34,7 +34,6 @@ const initiateCeoPbFetchData = async() => {
 
     const session = await startSession();
     session.startTransaction();
-    console.log('ceo al categries length', allCategories.length);
     for(let i = 1; i < allCategories.length; i++) {
         // ignore the first 
         const forms: FormJson[] = []

@@ -279,3 +279,4 @@
 2024-07-18 11:37:03 Error: Unable to fetch the file: https://psebfiles.s3.ap-south-1.amazonaws.com/media/1654750165_ਕੰਪਿਊਟਰ ਸਾਇੰਸ -8th.pdf
 2024-07-18 11:38:00 Error: Unable to fetch the file: https://psebfiles.s3.ap-south-1.amazonaws.com/media/1665141056_11th ਸਕੀਮ ਆਫ਼ ਸਟਡੀਜ 2022-23.pdf
 2024-07-18 11:38:32 Error: Unable to fetch the file: https://psebfiles.s3.ap-south-1.amazonaws.com/media/1665141101_12th ਸਕੀਮ ਆਫ਼ ਸਟਡੀਜ 2022-23.pdf
+2024-07-18 13:19:23 Error: Unable to get pdf file for link: 1665141056_11th_%E0%A8%B8%E0%A8%95%E0%A9%80%E0%A8%AE_%E0%A8%86%E0%A8%AB%E0%A8%BC_%E0%A8%B8%E0%A8%9F%E0%A8%A1%E0%A9%80%E0%A8%9C_2022-23.pdf and category: pseb. Error: NotFound: No such file or directory (os error 2): readfile '/Users/gurkiransinghrandhawa/Desktop/Forms/project/storeFiles/pb/pseb/1665141056_11th_%E0%A8%B8%E0%A8%95%E0%A9%80%E0%A8%AE_%E0%A8%86%E0%A8%AB%E0%A8%BC_%E0%A8%B8%E0%A8%9F%E0%A8%A1%E0%A9%80%E0%A8%9C_2022-23.pdf'

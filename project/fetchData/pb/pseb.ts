@@ -68,7 +68,6 @@ async function extractSyllabus(html: string) {
             const className = $(classNameTitles[y]).text();
             const totalLinks = $(classNameTitles[y]).next('.acc__panel').find('a');
             const allSubjects = totalLinks.map(function() { return ({ name: $(this).text(), link: $(this).attr('href') ?? ''  }) }).get();
-            console.log(allSubjects.length);
             pbPseb[i].syllabus.push({
                 className,
                 subjects: allSubjects,
@@ -183,7 +182,6 @@ const initiatePsebPbStoreFiles = async() => {
                continue;
             }
             filename = normalizeFilename(filename);
-            console.log(filename);
             await downloadAndStorePdf((allforms[i] as any).link, filename);
         }
     }

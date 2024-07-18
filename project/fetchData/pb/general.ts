@@ -118,7 +118,6 @@ const initiateGeneralPbFetchData = async() => {
 
     try{
         await Deno.mkdir(path.join(storeDir, 'pb'));
-        console.log('here?');
     } catch(err) {
         if (err instanceof Deno.errors.AlreadyExists) {
             Deno.writeTextFileSync(path.join(storeDir, 'pb', 'generalPb.json'), JSON.stringify(pbGeneral));
