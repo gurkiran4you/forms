@@ -4,7 +4,7 @@ import dev from "$fresh/dev.ts";
 import config from "./fresh.config.ts";
 import { prettyBenchmarkResult, prettyBenchmarkProgress, prettyBenchmarkDown, prettyBenchmarkHistory } from 'https://deno.land/x/pretty_benching@v0.3.3/mod.ts';
 import { Cron } from "https://deno.land/x/croner@8.1.0/dist/croner.js";
-import mongoose from "npm:mongoose@^6.7";
+// import mongoose from "npm:mongoose@^6.7";
 import { initiateGeneralPb } from "./fetchData/pb/general.ts";
 import { initiateCategoriesPb } from "./fetchData/pb/categories.ts";
 import { initiateCeoPb } from "./fetchData/pb/ceo.ts";
@@ -13,7 +13,7 @@ import { runBenchmarks } from "https://deno.land/x/pretty_benching@v0.3.3/deps.t
 import { bench } from "https://deno.land/std@0.91.0/testing/bench.ts";
 import { initiatePsebPb } from "./fetchData/pb/pseb.ts";
 
-await mongoose.connect("mongodb://localhost:27017");
+// await mongoose.connect("mongodb://localhost:27017");
 
 // cron job 
 //new Cron("*/10 * * * * *", () => {
