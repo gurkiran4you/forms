@@ -128,7 +128,7 @@ async function saveTitlesToDB() {
 
 export async function initiatePsebPb() {
     await initiatePsebPbFetchData();
-    await initiatePsebPbStoreFiles();
+    // await initiatePsebPbStoreFiles();
 }
 
 // Main function to orchestrate the process
