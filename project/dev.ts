@@ -13,18 +13,15 @@ import { runBenchmarks } from "https://deno.land/x/pretty_benching@v0.3.3/deps.t
 import { bench } from "https://deno.land/std@0.91.0/testing/bench.ts";
 import { initiatePsebPb } from "./fetchData/pb/pseb.ts";
 
-
-const uri = "mongodb+srv://guki:Thisisjustfortestingpurposes@cluster0.ptqybsm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-await mongoose.connect(uri);
+await mongoose.connect("mongodb://localhost:27017");
 
 // cron job 
 //new Cron("*/10 * * * * *", () => {
-    await initiateGeneralPb();
-    await initiateCategoriesPb();
-    await initiatePspclPb();
-    await initiateCeoPb();
-    await initiatePsebPb();
+    // await initiateGeneralPb();
+    // await initiateCategoriesPb();
+    // await initiatePspclPb();
+    // await initiateCeoPb();
+    // await initiatePsebPb();
 // console.log("This will print after 5 seconds");
 //});
 // bench({
@@ -42,3 +39,5 @@ await mongoose.connect(uri);
 
 
 await dev(import.meta.url, "./main.ts", config);
+
+Deno.exit();
