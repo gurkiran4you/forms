@@ -29,6 +29,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "gurkiran4yo-forms-91"
+          project: "gurkiran4yo-forms-95"
           entrypoint: "project/main.ts"
           root: "."
