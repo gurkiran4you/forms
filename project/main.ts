@@ -14,17 +14,16 @@ import { initiateGeneralPb } from "./fetchData/pb/general.ts";
 import { initiatePsebPb } from "./fetchData/pb/pseb.ts";
 import { initiatePspclPb } from "./fetchData/pb/pspcl.ts";
 import mongoose from "npm:mongoose@^6.7";
-import { load } from "$std/dotenv/mod.ts";
 
-const env = await load();
+const uri = Deno.env.get('MONGO_URI') as string;
 
-await mongoose.connect(env['MONGO_URI']);
+await mongoose.connect(uri);
 
-await initiateGeneralPb();
-await initiateCategoriesPb();
-await initiatePspclPb();
-await initiateCeoPb();
-await initiatePsebPb();
+// await initiateGeneralPb();
+// await initiateCategoriesPb();
+// await initiatePspclPb();
+// await initiateCeoPb();
+// await initiatePsebPb();
 
 
 await start(manifest, config);
