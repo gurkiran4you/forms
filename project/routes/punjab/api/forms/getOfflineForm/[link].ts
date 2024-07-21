@@ -4,7 +4,7 @@ import { getOfflineFormPb } from "../../../../../controllers/pb/get-offline-form
 
 export const handler: Handlers = {
   async GET(req, ctx): Promise<Response> {
-    const link = ctx.params.link;
+    const link = decodeURI(ctx.params.link);
     const url = new URL(req.url);
     const categoryId = url.searchParams.get('category') ?? '';
     const allPbFormTypes = await getPbFormTypes() ?? [];

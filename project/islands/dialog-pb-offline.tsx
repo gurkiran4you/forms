@@ -23,7 +23,9 @@ export function OfflineFormDialogPb(props: DropdownSelectForms) {
     return (
         <>
         <dialog id={id}>
-            <div class="absolute right-2 top-2 hover:underline cursor-pointer" onClick={closeDialog}>X</div>
+            <div class="sticky top-0 text-right hover:underline cursor-pointer">
+            <img  onClick={closeDialog} class="w-10 relative left-[95%]" src="/icons/close.svg" alt="My Happy SVG"/>
+            </div>
             <div class="flex flex-col px-4 py-8 items-center">
                 <img src="/icons/warning.svg" alt="warning" class="w-8 pb-8" />
                 <p class="pb-8">You are about to download offline file that has been fetched a week ago, so it may be outdate. Please make sure to check it yourself

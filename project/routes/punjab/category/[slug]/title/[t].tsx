@@ -7,6 +7,7 @@ import { getPbCategorySubTitles } from "../../../../../controllers/pb/get-dropdo
 import { getPbFormTypes } from "../../../../../controllers/pb/get-form-types/types.ts";
 import { FormTypes } from "../../../../../fetchData/pb/categories.ts";
 import { OfflineFormDialogPb } from "../../../../../islands/dialog-pb-offline.tsx";
+import { PreviewDialogPb } from "../../../../../islands/dialog-pb-preview.tsx";
 import { DropdownSelectionPb } from "../../../../../islands/dropdown-selection-pb.tsx";
 import { PunjabForm } from "../../../../../islands/form-pb.tsx";
 import { DropdownOption, Form_m, NestedGroup_m } from "../../../../../models/common.ts";
@@ -38,7 +39,6 @@ export const handler: Handlers<Data> = {
         let allForms: { formsRes: Form_m[] , nestedGroupsRes: NestedGroup_m[]};
         let forms: Form_m[] = [];
         let nestedGroups: NestedGroup_m[] = [];
-
         if (categoryType.title === 'pseb') {
             subTitles = await getPbCategorySubTitles('pseb', selectedTitleOptionId) ?? [];
         } else {
@@ -72,6 +72,7 @@ export default function Home(props: PageProps<Data>) {
     const needsSubTitles = category?.title === 'pseb';
 
     const offlineFormId = 'offline-form-modal-pb-simple';
+    const previewFormId = 'preview-form-modal-pb-simple';
 
   return (
       <>
@@ -86,12 +87,8 @@ export default function Home(props: PageProps<Data>) {
         <div class="bg-wheat bg-no-repeat absolute opacity-10 -z-10
                     w-auto h-auto top-0 bottom-0 left-0 right-0 bg-cover"></div>
         {
-            forms.map(f => <PunjabForm form={f} category={selectedCategory} dialogID={offlineFormId} />)
+            forms.map(f => <PunjabForm previewDialogID={previewFormId} form={f} category={selectedCategory} dialogID={offlineFormId} />)
         }
-        </section>
-        <section class="flex flex-col px-8 relative min-h-screen min-h-lvh">
-        <div class="bg-wheat bg-no-repeat absolute opacity-10 -z-10
-                    w-auto h-auto top-0 bottom-0 left-0 right-0 bg-cover"></div>
         {
             nestedGroups.map((group) => {
                 return (
@@ -100,7 +97,12 @@ export default function Home(props: PageProps<Data>) {
                         {
                             group.nestedForms?.map(f => {
                                 return(
-                                    <PunjabForm nested={true} form={f} category={selectedCategory} dialogID={offlineFormId} />
+                                    <PunjabForm 
+                                    nested={true} 
+                                    form={f} 
+                                    category={selectedCategory}
+                                    previewDialogID={previewFormId} 
+                                    dialogID={offlineFormId} />
                                 )
                             })
                         }
@@ -111,6 +113,7 @@ export default function Home(props: PageProps<Data>) {
         </section>
 
        <OfflineFormDialogPb id={offlineFormId} />
+       <PreviewDialogPb id={previewFormId} />
       </>
   );
 }

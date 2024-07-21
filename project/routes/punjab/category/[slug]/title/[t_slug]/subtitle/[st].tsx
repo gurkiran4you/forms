@@ -7,6 +7,7 @@ import { getPbCategorySubTitles } from "../../../../../../../controllers/pb/get-
 import { getPbFormTypes } from "../../../../../../../controllers/pb/get-form-types/types.ts";
 import { FormTypes } from "../../../../../../../fetchData/pb/categories.ts";
 import { OfflineFormDialogPb } from "../../../../../../../islands/dialog-pb-offline.tsx";
+import { PreviewDialogPb } from "../../../../../../../islands/dialog-pb-preview.tsx";
 import { DropdownSelectionPb } from "../../../../../../../islands/dropdown-selection-pb.tsx";
 import { PunjabForm } from "../../../../../../../islands/form-pb.tsx";
 import { DropdownOption, Form_m } from "../../../../../../../models/common.ts";
@@ -62,6 +63,7 @@ export default function Home(props: PageProps<Data>) {
     forms = [] } = props.data;
 
     const offlineFormId = 'offline-form-modal-pb-complex';
+    const previewFormId = 'preview-form-modal-pb-simple';
 
   return (
       <>
@@ -75,11 +77,12 @@ export default function Home(props: PageProps<Data>) {
         <div class="bg-wheat bg-no-repeat absolute opacity-10 -z-10
                     w-auto h-auto top-0 bottom-0 left-0 right-0 bg-cover"></div>
         {
-            forms.map(f => <PunjabForm form={f} category={selectedCategory} dialogID={offlineFormId} />)
+            forms.map(f => <PunjabForm previewDialogID={previewFormId} form={f} category={selectedCategory} dialogID={offlineFormId} />)
         }
         </section>
 
        <OfflineFormDialogPb id={offlineFormId} />
+       <PreviewDialogPb id={previewFormId} />
       </>
   );
 }

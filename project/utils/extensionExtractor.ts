@@ -19,6 +19,6 @@ export function extractExtIcon(link: string) {
         case 'docx':
             return '/icons/word.svg';
         default:
-            break;
+            return '/icons/pdf.svg';
     }
 }
