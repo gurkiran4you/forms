@@ -11,16 +11,20 @@ import * as pdfjsLib from "npm:pdfjs-dist"
 type DropdownSelectForms = {
     form: Form_m,
     category: string,
+    categoryTitle?: string,
     dialogID: string,
     previewDialogID?: string,
     nested?: boolean,
 }
 
 export function PunjabForm(props: DropdownSelectForms) {
-    const { form, category, dialogID, nested = false, previewDialogID } = props as DropdownSelectForms;
+    const { form, category, dialogID, nested = false, previewDialogID, categoryTitle = '' } = props as DropdownSelectForms;
 
     const iconPath = extractExtIcon(form.link);
-    const ext = extractExt(form.link);
+    let ext = extractExt(form.link);
+    if (categoryTitle === 'ceo') {
+        ext = 'pdf';
+    }
 
     const openPreviewLink = async (link: string) => {
         const modal = document.querySelector(`#${previewDialogID}`) as HTMLDialogElement;
@@ -38,6 +42,9 @@ export function PunjabForm(props: DropdownSelectForms) {
         const totalNumberOfPages = pdfDoc.numPages;
 
         try {
+            // remove all previous canvases 
+            const previewDialog =  document.querySelector(`#${previewDialogID} #pdf-canvas-container`) as HTMLDivElement;
+            previewDialog.innerHTML = '';
             for(let i = 1; i <= totalNumberOfPages; i++) {
                 await handlePdfPages(i, pdfDoc)
             }
@@ -97,7 +104,7 @@ export function PunjabForm(props: DropdownSelectForms) {
 
     const getOfflineFormPb =  async(link: string) => {
         let normalizedName = '';
-        if (category.toLowerCase() === 'ceo') {
+        if (categoryTitle.toLowerCase() === 'ceo') {
             const params = link.split('?')[1];
             const searchParams = new URLSearchParams(params);
             for (const value of searchParams.values()) {

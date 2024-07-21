@@ -5,7 +5,6 @@ import { getPbCategoryTitles } from "../../../../../controllers/pb/get-dropdown-
 import { getPbFormsForTitle } from "../../../../../controllers/pb/get-dropdown-data/forms-for-selected-title.ts";
 import { getPbCategorySubTitles } from "../../../../../controllers/pb/get-dropdown-data/sub-category-titles.ts";
 import { getPbFormTypes } from "../../../../../controllers/pb/get-form-types/types.ts";
-import { FormTypes } from "../../../../../fetchData/pb/categories.ts";
 import { OfflineFormDialogPb } from "../../../../../islands/dialog-pb-offline.tsx";
 import { PreviewDialogPb } from "../../../../../islands/dialog-pb-preview.tsx";
 import { DropdownSelectionPb } from "../../../../../islands/dropdown-selection-pb.tsx";
@@ -14,7 +13,8 @@ import { DropdownOption, Form_m, NestedGroup_m } from "../../../../../models/com
 
 interface Data {
     categories: DropdownOption[],
-    selectedCategory: FormTypes,
+    selectedCategory: string,
+    selectedCategoryTitle: string,
     titles: DropdownOption[],
     selectedTitle: string,
     subTitles: DropdownOption[],
@@ -27,7 +27,7 @@ export const handler: Handlers<Data> = {
     async GET(_req, ctx) {
         const { slug, t } = ctx.params;
         let subTitles: DropdownOption[] = [];
-        const selectedCategoryId = decodeURI(slug) as FormTypes;
+        const selectedCategoryId = decodeURI(slug);
         const selectedTitleOptionId = decodeURI(t);
         const allPbFormTypes = await getPbFormTypes() ?? [];
         const categoryType = allPbFormTypes.find(type => type.id === selectedCategoryId);
@@ -49,7 +49,8 @@ export const handler: Handlers<Data> = {
         }
         return ctx.render({ 
             categories: allPbFormTypes, 
-            selectedCategory: selectedCategoryId, 
+            selectedCategory: selectedCategoryId,
+            selectedCategoryTitle: categoryType.title,
             selectedTitle: selectedTitleOptionId,
             titles: categoryTitles ,
             subTitles,
@@ -66,6 +67,7 @@ export default function Home(props: PageProps<Data>) {
             selectedTitle = '', 
             subTitles = [] ,
             forms = [],
+            selectedCategoryTitle = '',
             nestedGroups = []} = props.data;
     
     const category = categories.find(c => c.id === selectedCategory);
@@ -87,7 +89,7 @@ export default function Home(props: PageProps<Data>) {
         <div class="bg-wheat bg-no-repeat absolute opacity-10 -z-10
                     w-auto h-auto top-0 bottom-0 left-0 right-0 bg-cover"></div>
         {
-            forms.map(f => <PunjabForm previewDialogID={previewFormId} form={f} category={selectedCategory} dialogID={offlineFormId} />)
+            forms.map(f => <PunjabForm categoryTitle={selectedCategoryTitle} previewDialogID={previewFormId} form={f} category={selectedCategory} dialogID={offlineFormId} />)
         }
         {
             nestedGroups.map((group) => {

@@ -19,11 +19,11 @@ const uri = Deno.env.get('MONGO_URI') as string;
 
 await mongoose.connect(uri);
 
-// await initiateGeneralPb();
-// await initiateCategoriesPb();
-// await initiatePspclPb();
-// await initiateCeoPb();
-// await initiatePsebPb();
+await initiateGeneralPb();
+await initiateCategoriesPb();
+await initiatePspclPb();
+await initiateCeoPb();
+await initiatePsebPb();
 
 
 await start(manifest, config);
