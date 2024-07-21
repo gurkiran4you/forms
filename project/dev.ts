@@ -12,11 +12,28 @@ import { initiatePspclPb } from "./fetchData/pb/pspcl.ts";
 import { runBenchmarks } from "https://deno.land/x/pretty_benching@v0.3.3/deps.ts";
 import { bench } from "https://deno.land/std@0.91.0/testing/bench.ts";
 import { initiatePsebPb } from "./fetchData/pb/pseb.ts";
+import * as path from "jsr:@std/path";
+import { existsSync } from "$std/fs/exists.ts";
 
 const isInDeployment = Deno.env.get('DENO_DEPLOYMENT_ID') != null;
 
 if(!isInDeployment) {
     // await mongoose.connect("mongodb://localhost:27017");
+}
+
+const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+
+// create store files folders
+const storeFilesFolder = 'storeFiles';
+const storePathFound = existsSync(path.join(__dirname, storeFilesFolder));
+if (!storePathFound) {
+    // create 
+    Deno.mkdirSync(path.join(__dirname, storeFilesFolder));
+    Deno.mkdirSync(path.join(__dirname, storeFilesFolder, 'pb'))
+    Deno.mkdirSync(path.join(__dirname, storeFilesFolder, 'pb', 'pseb'))
+    Deno.mkdirSync(path.join(__dirname, storeFilesFolder, 'pb', 'pspcl'))
+    Deno.mkdirSync(path.join(__dirname, storeFilesFolder, 'pb', 'general'))
+    Deno.mkdirSync(path.join(__dirname, storeFilesFolder, 'pb', 'ceo'))
 }
 
 // cron job 
