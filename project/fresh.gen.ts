@@ -14,6 +14,7 @@ import * as $punjab_category_slug_title_t_ from "./routes/punjab/category/[slug]
 import * as $punjab_category_slug_title_t_slug_subtitle_st_ from "./routes/punjab/category/[slug]/title/[t_slug]/subtitle/[st].tsx";
 import * as $punjab_index from "./routes/punjab/index.tsx";
 import * as $dialog_pb_offline from "./islands/dialog-pb-offline.tsx";
+import * as $dialog_pb_preview from "./islands/dialog-pb-preview.tsx";
 import * as $dropdown_selection_pb from "./islands/dropdown-selection-pb.tsx";
 import * as $form_pb from "./islands/form-pb.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -37,6 +38,7 @@ const manifest = {
   },
   islands: {
     "./islands/dialog-pb-offline.tsx": $dialog_pb_offline,
+    "./islands/dialog-pb-preview.tsx": $dialog_pb_preview,
     "./islands/dropdown-selection-pb.tsx": $dropdown_selection_pb,
     "./islands/form-pb.tsx": $form_pb,
   },

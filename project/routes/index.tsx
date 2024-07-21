@@ -1,6 +1,22 @@
 /** @jsxImportSource https://esm.sh/preact */
 
+import { Handlers } from "$fresh/server.ts";
 import { Link } from "../components/Link.tsx";
+import { getPbFormTypes } from "../controllers/pb/get-form-types/types.ts";
+
+interface Data {}
+
+export function handler(req: Request): Response {
+  //: Todo remove this if a peroper landing page is built
+  const headers = new Headers({
+    location: new URL(req.url).origin + '/punjab',
+  });
+  return new Response(null, {
+    status: 302,
+    headers,
+  });
+};
+
 
 export default function Home() {
   return (
