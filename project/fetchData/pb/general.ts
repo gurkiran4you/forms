@@ -176,6 +176,12 @@ const downloadAndStorePdf = async (link: string, fileName: string) => {
          }
         file.close();
     } catch(e) {
+        const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+        const storeDir = path.join(__dirname, '../../logs/logs/error.log');
+        const perms = await Deno.permissions.request({ name: 'write', path: storeDir});
+        if (perms.state === "granted") {
+            console.log('granted');
+        }
         logger.error(`Unable to safe pdf file for Punjab General forms. Link:${link}. Error is: ${e}`)
     }
 }
