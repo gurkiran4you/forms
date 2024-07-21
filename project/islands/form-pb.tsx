@@ -7,7 +7,6 @@ import { extractExt, extractExtIcon } from "../utils/extensionExtractor.ts";
 import { normalizeFilename } from "../utils/file-normalizer.ts";
 import { parseFeed } from "https://esm.sh/v135/htmlparser2@8.0.2/lib/index.js";
 import * as pdfjsLib from "npm:pdfjs-dist"
-import { PDFDocumentProxy } from "../node_modules/pdfjs-dist/types/src/pdf.d.ts";
 
 type DropdownSelectForms = {
     form: Form_m,
@@ -50,7 +49,7 @@ export function PunjabForm(props: DropdownSelectForms) {
         modal.showModal();
     } 
 
-    const handlePdfPages = async(pageNumber: number, pdfDoc: PDFDocumentProxy) => {
+    const handlePdfPages = async(pageNumber: number, pdfDoc: any) => {
         const page = await pdfDoc.getPage(pageNumber);
   
         const scale = 1.5;
