@@ -16,7 +16,7 @@ import { initiatePsebPb } from "./fetchData/pb/pseb.ts";
 const isInDeployment = Deno.env.get('DENO_DEPLOYMENT_ID') != null;
 
 if(!isInDeployment) {
-    await mongoose.connect("mongodb://localhost:27017");
+    // await mongoose.connect("mongodb://localhost:27017");
 }
 
 // cron job 
