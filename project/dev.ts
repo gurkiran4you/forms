@@ -3,7 +3,6 @@
 import dev from "$fresh/dev.ts";
 import config from "./fresh.config.ts";
 import { prettyBenchmarkResult, prettyBenchmarkProgress, prettyBenchmarkDown, prettyBenchmarkHistory } from 'https://deno.land/x/pretty_benching@v0.3.3/mod.ts';
-import { Cron } from "https://deno.land/x/croner@8.1.0/dist/croner.js";
 import mongoose from "npm:mongoose@^6.7";
 import { initiateGeneralPb } from "./fetchData/pb/general.ts";
 import { initiateCategoriesPb } from "./fetchData/pb/categories.ts";
@@ -34,15 +33,7 @@ if (!storePathFound) {
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'general'))
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'ceo'))
 }
-await initiateGeneralPb();
-await initiateCategoriesPb();
-await initiatePspclPb();
-await initiateCeoPb();
-await initiatePsebPb();
-// cron job 
-new Cron("* * * * *", () => {
-    console.log("This will print after every 1 minute");
-});
+
 // bench({
 //     name: 'test',
 //     func: async (b) => {
