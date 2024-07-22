@@ -18,7 +18,7 @@ export const initiatePspclPb = async () => {
 
 
     await initiatePspclPbFetchData();
-    // await initiatePspclPbStoreFiles();
+    await initiatePspclPbStoreFiles();
 }
 
 
