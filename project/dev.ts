@@ -16,11 +16,7 @@ import * as path from "jsr:@std/path";
 import { exists, existsSync } from "$std/fs/exists.ts";
 import logger from "./logs/log.ts";
 
-const isInDeployment = Deno.env.get('DENO_DEPLOYMENT_ID') != null;
-
-if(!isInDeployment) {
-    // await mongoose.connect("mongodb://localhost:27017");
-}
+// await mongoose.connect("mongodb://localhost:27017");
 
 const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
 
@@ -29,26 +25,22 @@ const storeFilesFolder = 'storeFiles';
 const storePathFound = await exists(path.join(__dirname, storeFilesFolder));
 if (!storePathFound) {
     // create 
-    await Deno.mkdir(path.join(__dirname, storeFilesFolder));
-    const perms = await Deno.permissions.request({ name: 'write', path: path.join(__dirname, storeFilesFolder)});
-    if (perms.state === "granted") {
-        console.log('granted');
-    }
+    await Deno.mkdir(path.join(__dirname, storeFilesFolder));s
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb'))
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'pseb'))
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'pspcl'))
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'general'))
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'ceo'))
 }
+await initiateGeneralPb();
+await initiateCategoriesPb();
+await initiatePspclPb();
+await initiateCeoPb();
+await initiatePsebPb();
 // cron job 
-//new Cron("*/10 * * * * *", () => {
-    // await initiateGeneralPb();
-    // await initiateCategoriesPb();
-    // await initiatePspclPb();
-    // await initiateCeoPb();
-    // await initiatePsebPb();
-// console.log("This will print after 5 seconds");
-//});
+new Cron("* * * * *", () => {
+    console.log("This will print after every 1 minute");
+});
 // bench({
 //     name: 'test',
 //     func: async (b) => {

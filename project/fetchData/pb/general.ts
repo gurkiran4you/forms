@@ -15,7 +15,7 @@ import { normalizeFilename } from "../../utils/file-normalizer.ts";
 export const initiateGeneralPb = async () => {
 
     await initiateGeneralPbFetchData();
-    await initiateGeneralPbStoreFiles();
+    // await initiateGeneralPbStoreFiles();
 }
 
 const initiateGeneralPbFetchData = async() => {
