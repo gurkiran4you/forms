@@ -1,10 +1,27 @@
 import { model } from "npm:mongoose@^6.7";
-import CategorySchema from "../common/category.ts";
 import FormSchema from "../common/form.ts";
-import NestedGroupSchema from "../common/nestedGroup.ts";
+import { Schema } from "npm:mongoose@^6.7";
 
-// Export model.
-const PbCeo =  model("PbCeo", CategorySchema, 'PbCeo');
 const PbCeoForm =  model("PbCeoForm", FormSchema);
-const PbCeoNestedForm =  model("PbGeneralNestedForm", NestedGroupSchema);
+
+const PbCeoNestedForm =  model("PbCeolNestedForm", new Schema({
+    subCategory: { type: String },
+    forms: [{
+      type: Schema.Types.ObjectId,
+      ref: 'PbCeoForm'
+    }],
+  }));
+
+const PbCeo =  model("PbCeo", new Schema({
+    title: { type: String },
+    forms: [{
+      type: Schema.Types.ObjectId,
+      ref: 'PbCeoForm', 
+    }],
+    nestedGroups: [{
+      type: Schema.Types.ObjectId,
+      ref: 'PbCeoNestedForm'
+    }],
+  }), 'PbCeo');
+
 export { PbCeo, PbCeoForm, PbCeoNestedForm };

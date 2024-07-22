@@ -26,7 +26,9 @@ export function PunjabForm(props: DropdownSelectForms) {
         ext = 'pdf';
     }
 
-    const openPreviewLink = async (link: string) => {
+    const openPreviewLink = async (link: string, e: Event) => {
+        const self = e.target as HTMLSpanElement;
+        self.classList.add('pointer-events-none');
         const modal = document.querySelector(`#${previewDialogID}`) as HTMLDialogElement;
         if (!modal) {
             return;
@@ -50,9 +52,10 @@ export function PunjabForm(props: DropdownSelectForms) {
             }
         } catch(e) {
             console.log('Failed to create pdf preview, Error: ', e);
+            self.classList.remove('pointer-events-none');
             return;
         }
-        
+        self.classList.remove('pointer-events-none');
         modal.showModal();
     } 
 
@@ -80,7 +83,11 @@ export function PunjabForm(props: DropdownSelectForms) {
         await renderTask.promise;
 
         // find dialog id and append canvas
-        const previewDialog =  document.querySelector(`#${previewDialogID} #pdf-canvas-container`) as HTMLDivElement;
+        const dialog = document.querySelector(`#${previewDialogID}`) as HTMLDialogElement;
+        if (dialog == null) {
+            return;
+        }
+        const previewDialog =  dialog.querySelector(`#pdf-canvas-container`) as HTMLDivElement;
 
         previewDialog.appendChild(canvas);
     }
@@ -156,13 +163,13 @@ export function PunjabForm(props: DropdownSelectForms) {
                             }
                             {
                                 ext === 'pdf' && (
-                                    <span class="mr-2 cursor-pointer hover:scale-125"  onClick={() => openPreviewLink(form.link)}>
-                                        <img title="preview" class="w-full" src="/icons/preview.svg" alt="My Happy SVG"/>
+                                    <span class="mr-2 cursor-pointer hover:scale-125 transition-all">
+                                        <img  onClick={(e) => openPreviewLink(form.link, e)} title="preview" class="w-full" src="/icons/preview.svg" alt="My Happy SVG"/>
                                     </span>
                                 )
                             }
 
-                            <a href={form.link} target="_blank" class="mr-2 hover:scale-125">
+                            <a href={form.link} target="_blank" class="mr-2 hover:scale-125 transition-all">
                                 <img title="Download" src={iconPath} alt="Download form"/>
                             </a>
                             <span 
