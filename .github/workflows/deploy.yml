@@ -24,11 +24,11 @@ jobs:
           deno-version: v1.x
 
       - name: Build step
-        run: "cd project && deno task build && MONGO_URI=\"mongodb+srv://guki:Thisisjustfortestingpurposes@cluster0.ptqybsm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0\" deno run -A pre.ts"
+        run: "cd project && deno task build"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "gurkiran4yo-forms-65"
-          entrypoint: "deno run -A project/main.ts"
+          entrypoint: "project/main.ts"
           root: "."
