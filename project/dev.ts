@@ -25,7 +25,7 @@ const storeFilesFolder = 'storeFiles';
 const storePathFound = await exists(path.join(__dirname, storeFilesFolder));
 if (!storePathFound) {
     // create 
-    await Deno.mkdir(path.join(__dirname, storeFilesFolder));s
+    await Deno.mkdir(path.join(__dirname, storeFilesFolder));
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb'))
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'pseb'))
     await Deno.mkdir(path.join(__dirname, storeFilesFolder, 'pb', 'pspcl'))
