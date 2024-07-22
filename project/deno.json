@@ -5,7 +5,7 @@
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
     "start": "deno run --unstable-cron -A --watch=static/,routes/ dev.ts",
-    "build": "deno run -A dev.ts build && MONGO_URI=mongodb+srv://guki:Thisisjustfortestingpurposes@cluster0.ptqybsm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 deno run -A pre.ts",
+    "build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
