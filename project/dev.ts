@@ -16,7 +16,10 @@ import * as path from "jsr:@std/path";
 import { exists, existsSync } from "$std/fs/exists.ts";
 import logger from "./logs/log.ts";
 
+const uri = Deno.env.get('MONGO_URI') ?? '';
+
 // await mongoose.connect("mongodb://localhost:27017");
+await mongoose.connect(uri);
 
 const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
 
