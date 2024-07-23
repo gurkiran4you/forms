@@ -17,6 +17,8 @@ new Cron("* * * * *", () => {
 
 // create store files folders
 const storeFilesFolder = 'storeFiles';
+
+const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
 const storePathFound = await exists(path.join(__dirname, storeFilesFolder));
 if (!storePathFound) {
     // create 
