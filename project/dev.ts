@@ -17,8 +17,6 @@ import logger from "./logs/log.ts";
 
 // await mongoose.connect("mongodb://localhost:27017");
 
-const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
-
 // bench({
 //     name: 'test',
 //     func: async (b) => {
