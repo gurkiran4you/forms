@@ -17,7 +17,7 @@ const BASE_URL = 'https://pspcl.in/';
 export const initiatePspclPb = async () => {
 
 
-    await initiatePspclPbFetchData();
+    // await initiatePspclPbFetchData();
     await initiatePspclPbStoreFiles();
 }
 

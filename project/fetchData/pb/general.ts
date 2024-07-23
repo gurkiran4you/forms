@@ -14,7 +14,7 @@ import { normalizeFilename } from "../../utils/file-normalizer.ts";
 
 export const initiateGeneralPb = async () => {
 
-    await initiateGeneralPbFetchData();
+    // await initiateGeneralPbFetchData();
     await initiateGeneralPbStoreFiles();
 }
 
@@ -176,6 +176,7 @@ const downloadAndStorePdf = async (link: string, fileName: string) => {
          }
         file.close();
     } catch(e) {
+        console.log('error: ', e);
         const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
         const storeDir = path.join(__dirname, '../../logs/logs/error.log');
         const perms = await Deno.permissions.request({ name: 'write', path: storeDir});
