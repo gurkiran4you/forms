@@ -26,6 +26,20 @@ export const getOfflineFormPb = async(formLink: string, category: string): Promi
                     const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
                     return bytes;
                 }   
+            case "transport":
+                {
+                    const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+                    const storeDir = path.join(__dirname, '../../storeFiles/pb/transport');
+                    const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
+                    return bytes;
+                }   
+            case "medical-council":
+                {
+                    const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+                    const storeDir = path.join(__dirname, '../../storeFiles/pb/medical-council');
+                    const bytes = await Deno.readFile(path.join(`${storeDir}/${formLink}`));
+                    return bytes;
+                }   
             case "pseb":
                 {
                     const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
