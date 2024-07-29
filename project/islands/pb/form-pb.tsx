@@ -1,12 +1,14 @@
 /** @jsxImportSource https://esm.sh/preact */
 
 import { BytesList } from "https://deno.land/std@0.152.0/bytes/bytes_list.ts";
-import { getOfflineFormPb } from "../controllers/pb/get-offline-form.ts";
-import { Form_m } from "../models/common.ts";
-import { extractExt, extractExtIcon } from "../utils/extensionExtractor.ts";
-import { normalizeFilename } from "../utils/file-normalizer.ts";
+import { getOfflineFormPb } from "../../controllers/pb/get-offline-form.ts";
+import { Form_m } from "../../models/common.ts";
+import { extractExt, extractExtIcon } from "../../utils/extensionExtractor.ts";
+import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { parseFeed } from "https://esm.sh/v135/htmlparser2@8.0.2/lib/index.js";
 import * as pdfjsLib from "npm:pdfjs-dist"
+import { Progress } from "../../components/Progress.tsx";
+import { useState } from "preact/hooks";
 
 type DropdownSelectForms = {
     form: Form_m,
@@ -18,6 +20,10 @@ type DropdownSelectForms = {
 }
 
 export function PunjabForm(props: DropdownSelectForms) {
+
+    const [progressValue, setProgressValue] = useState('0');
+    const [progressVisibility, setprogressVisibility] = useState('invisible');
+
     const { form, category, dialogID, nested = false, previewDialogID, categoryTitle = '' } = props as DropdownSelectForms;
 
     const iconPath = extractExtIcon(form.link);
@@ -47,7 +53,10 @@ export function PunjabForm(props: DropdownSelectForms) {
             // remove all previous canvases 
             const previewDialog =  document.querySelector(`#${previewDialogID} #pdf-canvas-container`) as HTMLDivElement;
             previewDialog.innerHTML = '';
+            setprogressVisibility('visible');
             for(let i = 1; i <= totalNumberOfPages; i++) {
+                const progress = Math.floor((i/totalNumberOfPages) * 100);
+                setProgressValue(progress.toString());
                 await handlePdfPages(i, pdfDoc)
             }
         } catch(e) {
@@ -56,6 +65,8 @@ export function PunjabForm(props: DropdownSelectForms) {
             return;
         }
         self.classList.remove('pointer-events-none');
+        setProgressValue('0');
+        setprogressVisibility('invisible');
         modal.showModal();
     } 
 
@@ -163,9 +174,12 @@ export function PunjabForm(props: DropdownSelectForms) {
                             }
                             {
                                 ext === 'pdf' && (
-                                    <span class="mr-2 cursor-pointer hover:scale-125 transition-all">
-                                        <img  onClick={(e) => openPreviewLink(form.link, e)} title="preview" class="w-full" src="/icons/preview.svg" alt="My Happy SVG"/>
-                                    </span>
+                                    <>
+                                        <Progress valuePercent={progressValue} visibility={progressVisibility} />
+                                        <span class="mr-2 cursor-pointer hover:scale-125 transition-all">
+                                            <img  onClick={(e) => openPreviewLink(form.link, e)} title="preview" class="w-full" src="/icons/preview.svg" alt="My Happy SVG"/>
+                                        </span>
+                                    </>
                                 )
                             }
 
@@ -182,7 +196,6 @@ export function PunjabForm(props: DropdownSelectForms) {
                         </p>
                     )
                 }
-
             </div>
         </>
     );
