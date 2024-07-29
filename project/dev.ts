@@ -12,10 +12,14 @@ import { runBenchmarks } from "https://deno.land/x/pretty_benching@v0.3.3/deps.t
 import { bench } from "https://deno.land/std@0.91.0/testing/bench.ts";
 import { initiatePsebPb } from "./fetchData/pb/pseb.ts";
 import logger from "./logs/log.ts";
+import { intitiateTransportPb } from "./fetchData/pb/transport.ts";
+import { intitiateMedicalCouncilPb } from "./fetchData/pb/MedicalCouncil.ts";
 
 
 
-// await mongoose.connect("mongodb://localhost:27017");
+await mongoose.connect("mongodb://localhost:27017");
+// await initiateCategoriesPb();
+// await intitiateMedicalCouncilPb();
 
 // bench({
 //     name: 'test',

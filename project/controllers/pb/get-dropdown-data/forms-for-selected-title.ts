@@ -3,7 +3,9 @@ import logger from "../../../logs/log.ts";
 import { NestedGroup_m } from "../../../models/common.ts";
 import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
 import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
+import { PbMedicalCouncil, PbMedicalCouncilForm } from "../../../schemas/pb/medical-council.ts";
 import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../../schemas/pb/pspcl.ts";
+import { PbTransport, PbTransportForm } from "../../../schemas/pb/transport.ts";
 
 export async function getPbFormsForTitle(category: string, id: string) {
     try {
@@ -51,6 +53,26 @@ export async function getPbFormsForTitle(category: string, id: string) {
                     }
                     const formIds = ceo.forms;
                     const forms = await PbCeoForm.find().where('_id').in(formIds).exec();
+                    const formsRes = forms.map(form => ({ id: form.id, name: form.name ?? '', link: form.link ?? '' }));
+                    return {formsRes, nestedGroupsRes: []};
+                }
+            case "transport": {
+                    const transport = await PbTransport.findById(id);
+                    if (transport == null) {
+                        return;
+                    }
+                    const formIds = transport.forms;
+                    const forms = await PbTransportForm.find().where('_id').in(formIds).exec();
+                    const formsRes = forms.map(form => ({ id: form.id, name: form.name ?? '', link: form.link ?? '' }));
+                    return {formsRes, nestedGroupsRes: []};
+                }
+            case "medical-council": {
+                    const medical = await PbMedicalCouncil.findById(id);
+                    if (medical == null) {
+                        return;
+                    }
+                    const formIds = medical.forms;
+                    const forms = await PbMedicalCouncilForm.find().where('_id').in(formIds).exec();
                     const formsRes = forms.map(form => ({ id: form.id, name: form.name ?? '', link: form.link ?? '' }));
                     return {formsRes, nestedGroupsRes: []};
                 }

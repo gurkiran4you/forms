@@ -9,6 +9,7 @@ import * as path from "jsr:@std/path";
 
 
 import mongoose from "npm:mongoose@^6.7";
+import { intitiateTransportPb } from "./fetchData/pb/transport.ts";
 
 // cron job 
 new Cron("* * * * *", () => {
@@ -39,5 +40,6 @@ await initiateCategoriesPb();
 await initiatePspclPb();
 await initiateCeoPb();
 await initiatePsebPb();
+await intitiateTransportPb();
 
 Deno.exit();
