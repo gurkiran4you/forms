@@ -13,10 +13,10 @@ import * as $punjab_category_c_ from "./routes/punjab/category/[c].tsx";
 import * as $punjab_category_slug_title_t_ from "./routes/punjab/category/[slug]/title/[t].tsx";
 import * as $punjab_category_slug_title_t_slug_subtitle_st_ from "./routes/punjab/category/[slug]/title/[t_slug]/subtitle/[st].tsx";
 import * as $punjab_index from "./routes/punjab/index.tsx";
-import * as $dialog_pb_offline from "./islands/dialog-pb-offline.tsx";
-import * as $dialog_pb_preview from "./islands/dialog-pb-preview.tsx";
-import * as $dropdown_selection_pb from "./islands/dropdown-selection-pb.tsx";
-import * as $form_pb from "./islands/form-pb.tsx";
+import * as $pb_dialogs_dialog_pb_offline from "./islands/pb/dialogs/dialog-pb-offline.tsx";
+import * as $pb_dialogs_dialog_pb_preview from "./islands/pb/dialogs/dialog-pb-preview.tsx";
+import * as $pb_dropdown_selection_pb from "./islands/pb/dropdown-selection-pb.tsx";
+import * as $pb_form_pb from "./islands/pb/form-pb.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -37,10 +37,10 @@ const manifest = {
     "./routes/punjab/index.tsx": $punjab_index,
   },
   islands: {
-    "./islands/dialog-pb-offline.tsx": $dialog_pb_offline,
-    "./islands/dialog-pb-preview.tsx": $dialog_pb_preview,
-    "./islands/dropdown-selection-pb.tsx": $dropdown_selection_pb,
-    "./islands/form-pb.tsx": $form_pb,
+    "./islands/pb/dialogs/dialog-pb-offline.tsx": $pb_dialogs_dialog_pb_offline,
+    "./islands/pb/dialogs/dialog-pb-preview.tsx": $pb_dialogs_dialog_pb_preview,
+    "./islands/pb/dropdown-selection-pb.tsx": $pb_dropdown_selection_pb,
+    "./islands/pb/form-pb.tsx": $pb_form_pb,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

@@ -2,7 +2,7 @@
 /** @jsxImportSource https://esm.sh/preact */
 
 import { JSX } from "preact";
-import { Select } from "../components/Select.tsx";
+import { Select } from "../../components/Select.tsx";
 
 type DropdownSelectForms = {
     options: {title: string, id: string}[],

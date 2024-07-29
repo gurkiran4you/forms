@@ -2,7 +2,7 @@
 
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { getPbFormTypes } from "../../controllers/pb/get-form-types/types.ts";
-import { DropdownSelectionPb } from "../../islands/dropdown-selection-pb.tsx";
+import { DropdownSelectionPb } from "../../islands/pb/dropdown-selection-pb.tsx";
 import { DropdownOption } from "../../models/common.ts";
 
 interface Data {

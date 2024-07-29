@@ -6,10 +6,10 @@ import { getPbFormsForSubTitle } from "../../../../../../../controllers/pb/get-d
 import { getPbCategorySubTitles } from "../../../../../../../controllers/pb/get-dropdown-data/sub-category-titles.ts";
 import { getPbFormTypes } from "../../../../../../../controllers/pb/get-form-types/types.ts";
 import { FormTypes } from "../../../../../../../fetchData/pb/categories.ts";
-import { OfflineFormDialogPb } from "../../../../../../../islands/dialog-pb-offline.tsx";
-import { PreviewDialogPb } from "../../../../../../../islands/dialog-pb-preview.tsx";
-import { DropdownSelectionPb } from "../../../../../../../islands/dropdown-selection-pb.tsx";
-import { PunjabForm } from "../../../../../../../islands/form-pb.tsx";
+import { OfflineFormDialogPb } from "../../../../../../../islands/pb/dialogs/dialog-pb-offline.tsx";
+import { PreviewDialogPb } from "../../../../../../../islands/pb/dialogs/dialog-pb-preview.tsx";
+import { DropdownSelectionPb } from "../../../../../../../islands/pb/dropdown-selection-pb.tsx";
+import { PunjabForm } from "../../../../../../../islands/pb/form-pb.tsx";
 import { DropdownOption, Form_m } from "../../../../../../../models/common.ts";
 
 interface Data {
