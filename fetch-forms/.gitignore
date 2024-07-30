@@ -1,0 +1,15 @@
+/abstract-lane-122018-de7a33674d65.json
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Fresh build directory
+_fresh/
+# npm dependencies
+node_modules/
+
+# pdf files
+storeFiles
