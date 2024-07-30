@@ -12,3 +12,7 @@ node_modules/
 
 # pdf files
 storeFiles
+
+# docker
+dockerfile
+docker-compose.yml
