@@ -1,0 +1,15 @@
+FROM denoland/deno:1.45.2
+
+ARG GIT_REVISION
+ENV DENO_DEPLOYMENT_ID=${GIT_REVISION}
+ENV MONGO_URI="mongodb+srv://guki:Thisisjustfortestingpurposes@cluster0.ptqybsm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+WORKDIR /forms
+
+COPY . .
+RUN deno cache main.ts
+RUN deno run -A dev.ts build
+
+EXPOSE 8000
+
+CMD ["run", "-A", "main.ts"]
