@@ -38,8 +38,10 @@ export function PunjabForm(props: DropdownSelectForms) {
         if (!modal) {
             return;
         }
+        setprogressVisibility('block');
         const { pdf, normalizedName } = await getOfflineFormPb(link);
         const url = window.URL.createObjectURL(pdf);
+
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
 
@@ -52,7 +54,6 @@ export function PunjabForm(props: DropdownSelectForms) {
             // remove all previous canvases 
             const previewDialog =  document.querySelector(`#${previewDialogID} #pdf-canvas-container`) as HTMLDivElement;
             previewDialog.innerHTML = '';
-            setprogressVisibility('visible');
             for(let i = 1; i <= totalNumberOfPages; i++) {
                 const progress = Math.floor((i/totalNumberOfPages) * 100);
                 setProgressValue(progress.toString());
@@ -60,12 +61,14 @@ export function PunjabForm(props: DropdownSelectForms) {
             }
         } catch(e) {
             console.log('Failed to create pdf preview, Error: ', e);
+            setProgressValue('0');
+            setprogressVisibility('hidden');
             self.classList.remove('pointer-events-none');
             return;
         }
         self.classList.remove('pointer-events-none');
         setProgressValue('0');
-        setprogressVisibility('invisible');
+        setprogressVisibility('hidden');
         modal.showModal();
     } 
 

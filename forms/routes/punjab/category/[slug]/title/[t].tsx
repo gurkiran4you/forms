@@ -79,10 +79,10 @@ export default function Home(props: PageProps<Data>) {
   return (
       <>
         <section class="bg-amber-100 flex flex-auto py-2">
-            <DropdownSelectionPb width="w-1/5" name="pb_category" options={categories} selectedOption={selectedCategory} nextRoute="category"/>
-            <DropdownSelectionPb width="w-5/12" name="pb_title" options={titles} selectedOption={selectedTitle} nextRoute="title"/>
+            <DropdownSelectionPb width="w-1/5" label="Category" name="pb_category" options={categories} selectedOption={selectedCategory} nextRoute="category"/>
+            <DropdownSelectionPb width="w-5/12" label="Title" name="pb_title" options={titles} selectedOption={selectedTitle} nextRoute="title"/>
             {
-                needsSubTitles && <DropdownSelectionPb width="w-5/12" name="pb_title" options={subTitles} selectedOption={''} nextRoute="subtitle"/>
+                needsSubTitles && <DropdownSelectionPb width="w-5/12" label="Sub Title" name="pb_title" options={subTitles} selectedOption={''} nextRoute="subtitle"/>
             }
         </section>
         <section class="flex flex-col px-8 relative min-h-screen min-h-lvh">

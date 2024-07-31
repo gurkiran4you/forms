@@ -1,6 +1,6 @@
 import { PbTypes } from "../../schemas/pb/types.ts";
 
-export type FormTypes = 'general' | 'pspcl' | 'ceo' | 'pseb';
+export type FormTypes = 'general' | 'pspcl' | 'ceo' | 'pseb' | 'transport' | 'medical-council';
 
 export const initiateCategoriesPb = async() => {
     const formTypes = ['general', 'pspcl', 'medical-council', 'transport', 'pseb', 'ceo'];

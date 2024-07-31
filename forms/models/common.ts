@@ -1,6 +1,5 @@
 import { Types } from 'npm:mongoose@^6.7';
-import { FormTypes } from "../../fetch-forms/fetchData/pb/categories.ts";
-
+export type FormTypes = 'general' | 'pspcl' | 'ceo' | 'pseb' | 'transport' | 'medical-council';
 export type Form_m = {
     id?: Types.ObjectId,
     name: string,
