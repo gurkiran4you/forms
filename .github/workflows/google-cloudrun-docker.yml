@@ -53,7 +53,6 @@ env:
   GAR_LOCATION: asia-south2 # TODO: update Artifact Registry location
   SERVICE: deno-cloudrun-image-forms # TODO: update Cloud Run service name
   REGISTRY_SERVICE: forms-and-such
-  ACTIVE_REGISTRY: deno-cloudrun-image
   REGION: asia-south2 # TODO: update Cloud Run service region
 
 jobs:
@@ -104,8 +103,8 @@ jobs:
         run: |-
           cd forms 
           docker build --build-arg GIT_REVISION=${{ github.sha }} --build-arg MONGO_URI=${{ secrets.MONGO_URI }} -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}/${{ env.ACTIVE_REGISTRY }}:${{ github.sha }}" ./
-          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}/${{ env.ACTIVE_REGISTRY }}:${{ github.sha }}"
-
+          docker tag test "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}:${{ github.sha }}"
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}:${{ github.sha }}"
       # END - Docker auth and build
 
       - name: Deploy to Cloud Run
@@ -115,7 +114,7 @@ jobs:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
-          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}/${{ env.ACTIVE_REGISTRY }}:${{ github.sha }}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}:${{ github.sha }}
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
