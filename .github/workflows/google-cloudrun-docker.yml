@@ -97,7 +97,7 @@ jobs:
       - name: Build and Push Container
         run: |-
           cd forms 
-          echo docker image ls
+          echo docker images
           docker build --build-arg GIT_REVISION=${{ github.sha }} --build-arg MONGO_URI=${{ secrets.MONGO_URI }} -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}:${{ github.sha }}" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}:${{ github.sha }}"
       # END - Docker auth and build
