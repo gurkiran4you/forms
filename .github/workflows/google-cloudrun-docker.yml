@@ -84,11 +84,6 @@ jobs:
 
       # BEGIN - Docker auth and build (NOTE: If you already have a container image, these Docker steps can be omitted)
 
-      # log 
-      - name: Log
-        run: |-
-          echo ${{steps.auth.outputs.access_token}} ${{steps.auth.outputs}} 
-
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: Docker Login
         id: docker-auth
@@ -102,6 +97,7 @@ jobs:
       - name: Build and Push Container
         run: |-
           cd forms 
+          echo docker image ls
           docker build --build-arg GIT_REVISION=${{ github.sha }} --build-arg MONGO_URI=${{ secrets.MONGO_URI }} -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}:${{ github.sha }}" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_SERVICE }}:${{ github.sha }}"
       # END - Docker auth and build
