@@ -1,11 +1,11 @@
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import { STATUS_CODE } from "jsr:@oak/commons/status";
-import { PbPseb, PbPsebForm, PbPsebSyllabus } from "../../schemas/pb/pseb.ts";
+import { PbPseb, PbPsebForm, PbPsebSyllabus } from "../../../schemas/pb/pseb.ts";
 import { Types, startSession } from "npm:mongoose@^6.7";
 import * as path from "jsr:@std/path";
 import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
-import { PbPseb_m } from "../../../forms/models/pb/pseb.ts";
-import logger from "../../logs/log.ts";
+import { PbPseb_m } from "../../../models/pb/pseb.ts";
+import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
@@ -129,7 +129,7 @@ async function saveTitlesToDB() {
 
 export async function initiatePsebPb() {
     // await initiatePsebPbFetchData();
-    await initiatePsebPbStoreFiles();
+    // await initiatePsebPbStoreFiles();
 }
 
 // Main function to orchestrate the process

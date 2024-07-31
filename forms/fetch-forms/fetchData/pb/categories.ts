@@ -1,4 +1,4 @@
-import { PbTypes } from "../../schemas/pb/types.ts";
+import { PbTypes } from "../../../schemas/pb/types.ts";
 
 export type FormTypes = 'general' | 'pspcl' | 'ceo' | 'pseb' | 'transport' | 'medical-council';
 

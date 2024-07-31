@@ -1,8 +1,6 @@
 import {Bucket, Storage} from "npm:@google-cloud/storage";
 import * as path from "jsr:@std/path";
 import "jsr:@std/dotenv/load";
-import Writer from "https://deno.land/x/logger@v1.1.6/writer.ts";
-
 
 export const getBucket = (): Bucket => {
     const authJson = Deno.env.get('gcloud_storage_auth_file');

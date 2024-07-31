@@ -24,7 +24,7 @@ export const uploadFile = async (bucket: Bucket, fileName: string, response: Res
         if (reader == null) {
             return;
         }
-        let readResult: ReadableStreamDefaultReadResult<Uint8Array>;
+        let readResult: ReadableStreamReadResult<Uint8Array>;
         do {
             readResult = await reader?.read();
             if (!readResult?.done) {

@@ -4,14 +4,15 @@ import { STATUS_CODE } from 'jsr:@oak/commons/status';
 import { PbPspclArr } from "../../model_json/pb/pspcl.ts";
 import { FormJson, NestedGroupJson } from "../../model_json/common.ts";
 import * as path from "jsr:@std/path";
-import { PbPspcl, PbPspclForm, PbPspclNestedGroup} from "../../schemas/pb/pspcl.ts";
+import { PbPspcl, PbPspclForm, PbPspclNestedGroup} from "../../../schemas/pb/pspcl.ts";
 import { Types, startSession } from 'npm:mongoose@^6.7';
 import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
-import logger from "../../logs/log.ts";
+import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { normalize } from "https://deno.land/std@0.224.0/url/normalize.ts";
 import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
+import { Form_m } from "../../../models/common.ts";
 
 
 const BASE_URL = 'https://pspcl.in/';
@@ -20,7 +21,7 @@ export const initiatePspclPb = async () => {
 
 
     // await initiatePspclPbFetchData();
-    await initiatePspclPbStoreFiles();
+    // await initiatePspclPbStoreFiles();
 }
 
 
@@ -195,7 +196,7 @@ const initiatePspclPbStoreFiles = async () => {
                continue;
             }
             filename = `pb/pspcl/${normalizeFilename(filename)}`;
-            await downloadAndStorePdf((allforms[i] as any).link, filename, bucket);
+            await downloadAndStorePdf((allforms[i] as Form_m).link, filename, bucket);
         }
     }
 }
