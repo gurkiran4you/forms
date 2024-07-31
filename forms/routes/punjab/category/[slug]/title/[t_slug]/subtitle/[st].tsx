@@ -5,12 +5,13 @@ import { getPbCategoryTitles } from "../../../../../../../controllers/pb/get-dro
 import { getPbFormsForSubTitle } from "../../../../../../../controllers/pb/get-dropdown-data/forms-for-selected-subtitle.ts";
 import { getPbCategorySubTitles } from "../../../../../../../controllers/pb/get-dropdown-data/sub-category-titles.ts";
 import { getPbFormTypes } from "../../../../../../../controllers/pb/get-form-types/types.ts";
-import { FormTypes } from "../../../../../../../../fetch-forms/fetchData/pb/categories.ts";
 import { OfflineFormDialogPb } from "../../../../../../../islands/pb/dialogs/dialog-pb-offline.tsx";
 import { PreviewDialogPb } from "../../../../../../../islands/pb/dialogs/dialog-pb-preview.tsx";
 import { DropdownSelectionPb } from "../../../../../../../islands/pb/dropdown-selection-pb.tsx";
 import { PunjabForm } from "../../../../../../../islands/pb/form-pb.tsx";
 import { DropdownOption, Form_m } from "../../../../../../../models/common.ts";
+
+export type FormTypes = 'general' | 'pspcl' | 'ceo' | 'pseb' | 'transport' | 'medical-council';
 
 interface Data {
     categories: DropdownOption[],
@@ -68,9 +69,9 @@ export default function Home(props: PageProps<Data>) {
   return (
       <>
         <section class="bg-amber-100 flex flex-auto py-2">
-          <DropdownSelectionPb width="w-1/5" name="pb_category" options={categories} selectedOption={selectedCategory} nextRoute="category"/>
-          <DropdownSelectionPb width="w-5/12" name="pb_title" options={titles} selectedOption={selectedTitle} nextRoute="title"/>
-          <DropdownSelectionPb width="w-5/12" name="pb_title" options={subTitles} selectedOption={selectedSubTitle} nextRoute="subtitle"/>
+          <DropdownSelectionPb width="w-1/5" label="Category" name="pb_category" options={categories} selectedOption={selectedCategory} nextRoute="category"/>
+          <DropdownSelectionPb width="w-5/12" label="Title" name="pb_title" options={titles} selectedOption={selectedTitle} nextRoute="title"/>
+          <DropdownSelectionPb width="w-5/12" label="Sub Title" name="pb_title" options={subTitles} selectedOption={selectedSubTitle} nextRoute="subtitle"/>
         </section>
 
         <section class="flex flex-col px-8 relative min-h-screen min-h-lvh">

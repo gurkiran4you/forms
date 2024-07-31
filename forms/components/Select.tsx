@@ -20,7 +20,9 @@ export function Select(props: JSX.HTMLAttributes<HTMLSelectElement> & SelectProp
         dark:focus:ring-blue-500 dark:focus:border-blue-500} ${width}`;
     return (
         <div class="flex items-center">
-            <label htmlFor={selectFor} class="mr-2 block capitalize text-sm font-medium text-gray-900 dark:text-white">{label}</label>
+            <label 
+                htmlFor={selectFor} 
+                class="mr-2 block capitalize text-sm text-nowrap font-medium text-gray-900 dark:text-white">{label}</label>
             <select 
                 {...props}
                 id={selectFor}

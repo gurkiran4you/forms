@@ -9,12 +9,13 @@ type DropdownSelectForms = {
     name: string,
     width: string,
     nextRoute: string,
+    label: string,
 }
 
 export function DropdownSelectionPb(props: DropdownSelectForms) {
 
 
-    const { options, selectedOption, name, width, nextRoute} = props as DropdownSelectForms;
+    const { options, selectedOption, name, width, nextRoute, label } = props as DropdownSelectForms;
 
     const onSelectChange = (e: Event) => {
         e.preventDefault();
@@ -59,7 +60,7 @@ export function DropdownSelectionPb(props: DropdownSelectForms) {
         <>
             <form class={formClass}>
                 <Select 
-                    label="category"
+                    label={label}
                     width="w-full"
                     onChange={onSelectChange} 
                     selectFor={name} 

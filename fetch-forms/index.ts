@@ -13,10 +13,12 @@ const uri = Deno.env.get('MONGO_URI') as string;
 await mongoose.connect(uri);
 
 
-await initiateCategoriesPb();
-await initiateGeneralPb();
-await initiatePspclPb();
-await initiateCeoPb();
-await initiatePsebPb();
-await intitiateTransportPb();
-await intitiateMedicalCouncilPb();
+// await initiateCategoriesPb();
+// await initiateGeneralPb();
+// await initiatePspclPb();
+// await initiateCeoPb();
+// await initiatePsebPb();
+// await intitiateTransportPb();
+// await intitiateMedicalCouncilPb();
+
+Deno.exit();

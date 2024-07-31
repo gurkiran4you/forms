@@ -12,8 +12,7 @@ export const getBucket = () => {
         keyFilename: path.join(__dirname, `../${authJson}`),
         projectId,
     });
-    
-    return gc.bucket('bucket-forms_files-forms_and_such');
+    return gc.bucket('forms_and_such');
 }
 
 export const uploadFile = async (bucket: Bucket, fileName: string, response: Response) => {
