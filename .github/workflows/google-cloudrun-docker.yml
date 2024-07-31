@@ -83,6 +83,11 @@ jobs:
 
       # BEGIN - Docker auth and build (NOTE: If you already have a container image, these Docker steps can be omitted)
 
+      # log 
+      - name: Log
+        run: |-
+          echo ${{steps.auth.outputs.access_token}} ${{steps.auth.outputs}} 
+
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: Docker Login
         id: docker-auth
