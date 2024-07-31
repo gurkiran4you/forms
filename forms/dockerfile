@@ -5,8 +5,6 @@ ARG MONGO_URI
 ENV DENO_DEPLOYMENT_ID=${GIT_REVISION}
 ENV MONGO_URI=${MONGO_URI}
 
-WORKDIR /
-
 COPY . .
 RUN deno cache main.ts
 RUN deno run -A dev.ts build
