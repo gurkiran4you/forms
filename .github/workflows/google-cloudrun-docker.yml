@@ -75,6 +75,9 @@ jobs:
       #     service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
       # NOTE: Alternative option - authentication via credentials json
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v4
+
       - name: Authenticate to Google Cloud
         id: auth
         uses: 'google-github-actions/auth@v2.1.3'
