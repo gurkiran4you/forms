@@ -1,5 +1,3 @@
-import { extname } from "$std/path/posix/mod.ts";
-
 export function extractExt(link: string) {
     const linkArr = link.split('.');
     const ext = linkArr[linkArr.length - 1];

@@ -2,8 +2,6 @@
 
 import { Link } from "../components/Link.tsx";
 
-interface Data {}
-
 export function handler(req: Request): Response {
   //: Todo remove this if a peroper landing page is built
   const {protocol, host, hostname, port} = new URL(req.url);

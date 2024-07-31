@@ -14,7 +14,6 @@ node_modules/
 storeFiles
 
 # docker
-dockerfile
 docker-compose.yml
 
 true-kite-431022-p9-731f887c8d8d.json

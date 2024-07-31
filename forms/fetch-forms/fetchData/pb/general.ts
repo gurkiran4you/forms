@@ -5,19 +5,18 @@ import { PbGeneralArr } from "../../model_json/pb/general.ts";
 import { FormJson, NestedGroupJson } from "../../model_json/common.ts";
 import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
-import { PbGeneral, PbGeneralForm } from "../..//schemas/pb/general.ts";
-import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
-import logger from "../../logs/log.ts";
+import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
+import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
 
 
 
 export const initiateGeneralPb = async () => {
 
-    await initiateGeneralPbFetchData();
-    await initiateGeneralPbStoreFiles();
+    // await initiateGeneralPbFetchData();
+    // await initiateGeneralPbStoreFiles();
 }
 
 const initiateGeneralPbFetchData = async() => {

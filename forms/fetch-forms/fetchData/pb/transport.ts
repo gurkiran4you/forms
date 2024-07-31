@@ -1,59 +1,69 @@
+// fetch from https://punjabtransport.org/forms.aspx
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import { STATUS_CODE } from 'jsr:@oak/commons/status';
 import { FormJson, NestedGroupJson } from "../../model_json/common.ts";
 import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
 import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
-import logger from "../../logs/log.ts";
+import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
-import { PbMedicalCouncil, PbMedicalCouncilForm } from "../../schemas/pb/medical-council.ts";
-import { PbMedicalCouncilArr } from "../../model_json/pb/medical-council.ts";
+import { PbTransportArr } from "../../model_json/pb/transport.ts";
+import { PbTransport, PbTransportForm } from "../../../schemas/pb/transport.ts";
+import { normalize } from "https://deno.land/std@0.224.0/url/normalize.ts";
 import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
 
-export const intitiateMedicalCouncilPb = async () => {
 
-    await initiateMedicalCouncilPbFetchData();
-    await initiateMedicalCouncilPbStoreFiles();
+const BASE_URL = 'http://punjabtransport.org/';
+
+export const intitiateTransportPb = async () => {
+
+    // await initiateTransportPbFetchData();
+    // await initiateTransportPbStoreFiles();
 }
 
-const initiateMedicalCouncilPbFetchData = async() => {
+const initiateTransportPbFetchData = async() => {
 
-    const response = await fetch('https://punjabmedicalcouncil.in/');
+    const response = await fetch('http://punjabtransport.org/forms.aspx', {
+        headers: {
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+        }
+    });
     if (response.status !== STATUS_CODE.OK) {
-        logger.error('unable to fetch pb medical council forms', response);
+        logger.error('unable to fetch pb transport forms', response);
         return;
     }
     const $ = cheerio.load(await response.text());
 
-    const allTitlesContainers = $('div.home-noti');
-    const allFormUls = $('marquee');
+    const allTitles = $('div#center_wrap2 > h3.about_sub_heading');
+    const allFormUls = $('div#center_wrap2  ul');
 
-    if (allTitlesContainers.length !== allFormUls.length) {
-        console.log('Pb Medical council, titles should match the formLists');
+    if (allTitles.length !== allFormUls.length) {
+        console.log('Pb Transport, titles should match the formLists');
         return;
     }
 
-    const pbMedicalCouncil: PbMedicalCouncilArr = []; 
+    const pbTransport: PbTransportArr = []; 
 
-    await PbMedicalCouncil.collection.drop();
-    await PbMedicalCouncilForm.collection.drop();
+    await PbTransport.collection.drop();
+    await PbTransportForm.collection.drop();
 
     const session = await startSession();
     session.startTransaction();
-    for(let i = 0; i < allTitlesContainers.length; i++) {
+    for(let i = 0; i < allTitles.length; i++) {
         let title = '';
         const forms: FormJson[] = []
         const nestedGroups: NestedGroupJson[] = [];
-        title = $(allTitlesContainers[i]).find('h3').text().trim() ?? '';
+        title = $(allTitles[i]).text().trim() ?? '';
 
-        await PbMedicalCouncil.create({
+        await PbTransport.create({
             title,
             forms,
             nestedGroups,
         })
 
-        pbMedicalCouncil.push({
+        pbTransport.push({
             title,
             forms,
             nestedGroups,
@@ -65,12 +75,12 @@ const initiateMedicalCouncilPbFetchData = async() => {
 
     const sessionForm = await startSession();
     sessionForm.startTransaction();
-    for(let i = 0; i < allTitlesContainers.length; i++) {
+    for(let i = 0; i < allTitles.length; i++) {
         let title = '';
         const forms: FormJson[] = []
-        title = $(allTitlesContainers[i]).find('h3').text().trim() ?? '';
+        title = $(allTitles[i]).text().trim() ?? '';
 
-        const categoryDocument = await PbMedicalCouncil.findOne({ title }).exec();
+        const categoryDocument = await PbTransport.findOne({ title }).exec();
         if (categoryDocument == null) {
             session.abortTransaction();
             session.endSession();
@@ -86,12 +96,12 @@ const initiateMedicalCouncilPbFetchData = async() => {
         const formIds: Types.ObjectId[] = [];
         for(let i = 0; i < allForms.length; i++) {
             const name = $(allForms[i]).text();
-            const link = $(allForms[i]).attr('href') ?? '';
+            const link = normalize(`${BASE_URL}${$(allForms[i]).attr('href')}`).toString() ?? '';
             forms.push({
                 name,
                 link,
             })
-            const createdForm = await PbMedicalCouncilForm.create({
+            const createdForm = await PbTransportForm.create({
                 name,
                 link,
             })
@@ -100,7 +110,7 @@ const initiateMedicalCouncilPbFetchData = async() => {
             }
         }
         // json
-        const foundCategory = pbMedicalCouncil.find(doc => doc.title === title);
+        const foundCategory = pbTransport.find(doc => doc.title === title);
         if(foundCategory !=  null) {
             foundCategory.forms = forms;
         }
@@ -118,15 +128,15 @@ const initiateMedicalCouncilPbFetchData = async() => {
         await Deno.mkdir(path.join(storeDir, 'pb'));
     } catch(err) {
         if (err instanceof Deno.errors.AlreadyExists) {
-            Deno.writeTextFileSync(path.join(storeDir, 'pb', 'medicalCouncilPb.json'), JSON.stringify(pbMedicalCouncil));
+            Deno.writeTextFileSync(path.join(storeDir, 'pb', 'transportPb.json'), JSON.stringify(pbTransport));
         }
     }
 }
 
-const initiateMedicalCouncilPbStoreFiles = async() => {
+const initiateTransportPbStoreFiles = async() => {
      // we should now have the data, start fetching the files
 
-     const allforms = await PbMedicalCouncilForm.find();
+     const allforms = await PbTransportForm.find();
 
      if (allforms == null || !Array.isArray(allforms) || (Array.isArray(allforms) && allforms.length === 0)) {
          return;
@@ -138,7 +148,7 @@ const initiateMedicalCouncilPbStoreFiles = async() => {
              if (filename == null || filename === '') {
                 continue;
              }
-             filename = `pb/medical-council/${normalizeFilename(filename)}`;
+             filename = `pb/transport/${normalizeFilename(filename)}`;
              await downloadAndStorePdf((allforms[i] as any).link, filename, bucket);
          }
      }
@@ -161,6 +171,6 @@ const downloadAndStorePdf = async (link: string, fileName: string, bucket: Bucke
         await uploadFile(bucket, fileName, response);
     } catch(e) {
         console.log('error: ', e);
-        logger.error(`Unable to safe pdf file for Punjab medical council forms. Link:${link}. Error is: ${e}`)
+        logger.error(`Unable to safe pdf file for Punjab transport forms. Link:${link}. Error is: ${e}`)
     }
 }
