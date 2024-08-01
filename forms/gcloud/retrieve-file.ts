@@ -10,7 +10,7 @@ export const getBucket = (): Bucket => {
         keyFilename: path.join(__dirname, `../${authJson}`),
         projectId,
     });
-    console.log(gc);
+    console.log(gc.bucket('forms_and_such'));
     return gc.bucket('forms_and_such');
 }
 
