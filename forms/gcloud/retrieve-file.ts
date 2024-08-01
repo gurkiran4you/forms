@@ -3,14 +3,13 @@ import * as path from "jsr:@std/path";
 import "jsr:@std/dotenv/load";
 
 export const getBucket = (): Bucket => {
-    const authJson = Deno.env.get('gcloud_storage_auth_file');
-    const projectId = Deno.env.get('gcloud_project_id');
-    const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
+    const authJson = Deno.env.get('GCP_CREDENTIALS') || "{}";
+    const jsonAuth = JSON.parse(authJson);
+    console.log(jsonAuth);
     const gc = new Storage({
-        keyFilename: path.join(__dirname, `../${authJson}`),
-        projectId,
+        credentials: jsonAuth,
+        projectId: jsonAuth.project_id,
     });
-    console.log(gc.bucket('forms_and_such'));
     return gc.bucket('forms_and_such');
 }
 
@@ -25,7 +24,6 @@ export const retrieveFile = async (fileName: string): Promise<Uint8Array | null>
             dataToSend.set(c, offset);
             offset += c.length;
         }
-        console.log(dataToSend);
         return dataToSend;
         // const readStream = bucket.file(fileName).createReadStream();
         // const chunks: Uint8Array[] = [];
