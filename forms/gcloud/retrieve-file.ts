@@ -10,6 +10,7 @@ export const getBucket = (): Bucket => {
         keyFilename: path.join(__dirname, `../${authJson}`),
         projectId,
     });
+    console.log(gc);
     return gc.bucket('forms_and_such');
 }
 
@@ -24,6 +25,7 @@ export const retrieveFile = async (fileName: string): Promise<Uint8Array | null>
             dataToSend.set(c, offset);
             offset += c.length;
         }
+        console.log(dataToSend);
         return dataToSend;
         // const readStream = bucket.file(fileName).createReadStream();
         // const chunks: Uint8Array[] = [];
