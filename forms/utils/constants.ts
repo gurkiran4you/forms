@@ -5,9 +5,7 @@ export const CONSTANTS = {
     ],
     disclaimer: [
         `The information and forms provided on this website are intended for general informational purposes only. All forms made available through this platform are sourced from publicly accessible resources and are the property of the respective government authorities of Punjab, India.
-        We do not claim ownership or authorship of any forms provided herein. Our website is not affiliated with, endorsed by, or a representative of any governmental department or entity. While we strive to ensure the accuracy and timeliness of the information presented, we cannot guarantee that the forms available on this website are the most current versions issued by the relevant authorities.
-        Users are advised to verify the validity of the forms with official government sources. We disclaim any responsibility for any loss, damage, or inconvenience arising from the use or inability to use the forms or information available on this website.
-        By using this website, you agree to the terms of this disclaimer.`,
+        Users are advised to verify the validity of the forms with official government sources. We disclaim any responsibility for any loss, damage, or inconvenience arising from the use or inability to use the forms or information available on this website`,
         `We do not claim ownership or authorship of any forms provided herein. Our website is not affiliated with, endorsed by, or a representative of any governmental department or entity. While we strive to ensure the accuracy and timeliness of the information presented, we cannot guarantee that the forms available on this website are the most current versions issued by the relevant authorities.`,
         `Users are advised to verify the validity of the forms with official government sources. We disclaim any responsibility for any loss, damage, or inconvenience arising from the use or inability to use the forms or information available on this website.`,
         'By using this website, you agree to the terms of this disclaimer.'
