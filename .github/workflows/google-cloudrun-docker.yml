@@ -53,7 +53,7 @@ env:
   GAR_LOCATION: asia-south2 # TODO: update Artifact Registry location
   SERVICE: deno-cloudrun-image-forms # TODO: update Cloud Run service name
   REGISTRY_SERVICE: forms-and-such
-  ACTIVE_REGISTRY: deno-cloudrun-image
+  ACTIVE_REGISTRY: deno-forms-image
   REGION: asia-south2 # TODO: update Cloud Run service region
 
 jobs:
