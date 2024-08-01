@@ -39,18 +39,19 @@ export function PunjabForm(props: DropdownSelectForms) {
             return;
         }
         setprogressVisibility('block');
-        const { pdf, normalizedName } = await getOfflineFormPb(link);
-        const url = window.URL.createObjectURL(pdf);
-
-
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
-
-        const loadingTask = await pdfjsLib.getDocument(url);
-        const pdfDoc = await loadingTask.promise;
-
-        const totalNumberOfPages = pdfDoc.numPages;
 
         try {
+            const { pdf, normalizedName } = await getOfflineFormPb(link);
+            const url = window.URL.createObjectURL(pdf);
+
+
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.mjs`;
+
+            const loadingTask = await pdfjsLib.getDocument(url);
+            const pdfDoc = await loadingTask.promise;
+
+            const totalNumberOfPages = pdfDoc.numPages;
+
             // remove all previous canvases 
             const previewDialog =  document.querySelector(`#${previewDialogID} #pdf-canvas-container`) as HTMLDivElement;
             previewDialog.innerHTML = '';
