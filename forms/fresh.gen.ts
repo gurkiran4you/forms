@@ -14,6 +14,8 @@ import * as $punjab_category_c_ from "./routes/punjab/category/[c].tsx";
 import * as $punjab_category_slug_title_t_ from "./routes/punjab/category/[slug]/title/[t].tsx";
 import * as $punjab_category_slug_title_t_slug_subtitle_st_ from "./routes/punjab/category/[slug]/title/[t_slug]/subtitle/[st].tsx";
 import * as $punjab_index from "./routes/punjab/index.tsx";
+import * as $common_footer from "./islands/common/footer.tsx";
+import * as $dialogs_dialog_generic_text from "./islands/dialogs/dialog-generic-text.tsx";
 import * as $pb_dialogs_dialog_pb_offline from "./islands/pb/dialogs/dialog-pb-offline.tsx";
 import * as $pb_dialogs_dialog_pb_preview from "./islands/pb/dialogs/dialog-pb-preview.tsx";
 import * as $pb_dropdown_selection_pb from "./islands/pb/dropdown-selection-pb.tsx";
@@ -39,6 +41,8 @@ const manifest = {
     "./routes/punjab/index.tsx": $punjab_index,
   },
   islands: {
+    "./islands/common/footer.tsx": $common_footer,
+    "./islands/dialogs/dialog-generic-text.tsx": $dialogs_dialog_generic_text,
     "./islands/pb/dialogs/dialog-pb-offline.tsx": $pb_dialogs_dialog_pb_offline,
     "./islands/pb/dialogs/dialog-pb-preview.tsx": $pb_dialogs_dialog_pb_preview,
     "./islands/pb/dropdown-selection-pb.tsx": $pb_dropdown_selection_pb,
