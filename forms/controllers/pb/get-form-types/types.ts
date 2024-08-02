@@ -1,4 +1,3 @@
-import logger from "../../../logs/log.ts";
 import { DropdownOption } from "../../../models/common.ts";
 import { PbTypes } from "../../../schemas/pb/types.ts";
 
@@ -21,7 +20,7 @@ export const getPbFormTypes = async() => {
     }
     catch (err) {
         console.log(err);
-        logger.error(`Unable to get form types for punjab. Error: ${err}`)
+        console.error(`Unable to get form types for punjab. Error: ${err}`)
         return null;
       }
 }

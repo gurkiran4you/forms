@@ -6,24 +6,24 @@ import { FormJson, NestedGroupJson } from "../../model_json/common.ts";
 import { normalize } from "https://deno.land/std@0.224.0/url/normalize.ts";
 import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
-import logger from "../../../logs/log.ts";
-import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
+import { uploadFile } from "../../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
 import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
+import { getBucket } from "../../../gcloud/get-bucket.ts";
 
 const BASE_URL = 'https://www.ceopunjab.gov.in/';
 
 export const initiateCeoPb = async () => {
 
-    // await initiateCeoPbFetchData();
-    // await initiateGeneralPbStoreFiles();
+    await initiateCeoPbFetchData();
+    await initiateGeneralPbStoreFiles();
 }
 
 const initiateCeoPbFetchData = async() => {
 
     const response = await fetch('https://www.ceopunjab.gov.in/forms');
     if (response.status !== STATUS_CODE.OK) {
-        logger.error('unable to fetch pb ceo forms')
+        console.error('unable to fetch pb ceo forms')
     }
     const $ = cheerio.load(await response.text());
 
@@ -143,13 +143,13 @@ const downloadAndStorePdf = async (link: string, fileName: string, bucket: Bucke
         });
 
         if (!response || (response.status != STATUS_CODE.OK)) {
-            logger.error(`Unable to fetch the file: ${link}`);
+            console.error(`Unable to fetch the file: ${link}`);
             return;
         }
         await uploadFile(bucket, fileName, response);
     
     } catch(e) {
-        logger.error(`Unable to safe pdf file for Punjab ceo forms. Link:${link}. Error is: ${e}`)
+        console.error(`Unable to safe pdf file for Punjab ceo forms. Link:${link}. Error is: ${e}`)
     }
 }
 

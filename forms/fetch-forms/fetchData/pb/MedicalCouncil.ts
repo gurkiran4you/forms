@@ -3,24 +3,24 @@ import { STATUS_CODE } from 'jsr:@oak/commons/status';
 import { FormJson, NestedGroupJson } from "../../model_json/common.ts";
 import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
-import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { PbMedicalCouncil, PbMedicalCouncilForm } from "../../../schemas/pb/medical-council.ts";
 import { PbMedicalCouncilArr } from "../../model_json/pb/medical-council.ts";
-import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
+import { uploadFile } from "../../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
+import { getBucket } from "../../../gcloud/get-bucket.ts";
 
 export const intitiateMedicalCouncilPb = async () => {
 
-    // await initiateMedicalCouncilPbFetchData();
-    // await initiateMedicalCouncilPbStoreFiles();
+    await initiateMedicalCouncilPbFetchData();
+    await initiateMedicalCouncilPbStoreFiles();
 }
 
 const initiateMedicalCouncilPbFetchData = async() => {
 
     const response = await fetch('https://punjabmedicalcouncil.in/');
     if (response.status !== STATUS_CODE.OK) {
-        logger.error('unable to fetch pb medical council forms', response);
+        console.error('unable to fetch pb medical council forms', response);
         return;
     }
     const $ = cheerio.load(await response.text());
@@ -153,13 +153,13 @@ const downloadAndStorePdf = async (link: string, fileName: string, bucket: Bucke
         });
 
         if (response.status != STATUS_CODE.OK) {
-            logger.error(`Unable to fetch the file: ${link}`);
+            console.error(`Unable to fetch the file: ${link}`);
             return;
         }
 
         await uploadFile(bucket, fileName, response);
     } catch(e) {
         console.log('error: ', e);
-        logger.error(`Unable to safe pdf file for Punjab medical council forms. Link:${link}. Error is: ${e}`)
+        console.error(`Unable to safe pdf file for Punjab medical council forms. Link:${link}. Error is: ${e}`)
     }
 }

@@ -3,12 +3,11 @@ import { STATUS_CODE } from "jsr:@oak/commons/status";
 import { PbPseb, PbPsebForm, PbPsebSyllabus } from "../../../schemas/pb/pseb.ts";
 import { Types, startSession } from "npm:mongoose@^6.7";
 import * as path from "jsr:@std/path";
-import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
 import { PbPseb_m } from "../../../models/pb/pseb.ts";
-import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
-import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
+import { uploadFile } from "../../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
+import { getBucket } from "../../../gcloud/get-bucket.ts";
 
 
 
@@ -20,7 +19,7 @@ const pbPseb: PbPseb_m[] = [];
 async function fetchHTML(url: string): Promise<string> {
     const response = await fetch(url);
     if (response.status !== STATUS_CODE.OK) {
-        logger.error('Unable to fetch HTML from URL');
+        console.error('Unable to fetch HTML from URL');
         return '';
     }
     return await response.text();
@@ -128,8 +127,8 @@ async function saveTitlesToDB() {
 }
 
 export async function initiatePsebPb() {
-    // await initiatePsebPbFetchData();
-    // await initiatePsebPbStoreFiles();
+    await initiatePsebPbFetchData();
+    await initiatePsebPbStoreFiles();
 }
 
 // Main function to orchestrate the process
@@ -198,12 +197,12 @@ const downloadAndStorePdf = async (link: string, fileName: string, bucket: Bucke
             });
 
         if (response.status != STATUS_CODE.OK) {
-            logger.error(`Unable to fetch the file: ${link}`);
+            console.error(`Unable to fetch the file: ${link}`);
             return;
         }
         await uploadFile(bucket, fileName, response);
    } catch(e) {
-    logger.error(`Unable to safe pdf file for Punjab pseb forms. Link:${link}. Error is: ${e}`)
+    console.error(`Unable to safe pdf file for Punjab pseb forms. Link:${link}. Error is: ${e}`)
    }
 }
 

@@ -1,7 +1,6 @@
 import { Form_m, NestedGroup_m } from "../../../models/common.ts";
 import { PbPspcl, PbPspclForm, PbPspclNestedGroup } from "../../../schemas/pb/pspcl.ts";
 import { PbPspcl_m } from "../../../models/pb/pspcl.ts";
-import logger from "../../../logs/log.ts";
 
 export const getPspclForms = async({response} : {response: any}) => {
     try {
@@ -41,7 +40,7 @@ export const getPspclForms = async({response} : {response: any}) => {
         return;
     }
     catch (err) {
-        logger.error(`Unable to get all pspcl forms. Error: ${err}`)
+        console.error(`Unable to get all pspcl forms. Error: ${err}`)
         return null;
       }
 }
