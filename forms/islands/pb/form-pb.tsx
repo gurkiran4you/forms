@@ -148,7 +148,7 @@ export function PunjabForm(props: DropdownSelectForms) {
         return { pdf, normalizedName};
     }
 
-    let formClass = `flex justify-end items-center my-2 py-2 relative`;
+    let formClass = `block lg:flex justify-end items-center my-2 py-2 relative`;
     if (nested) {
         formClass += ` ml-8 before:content-[''] before:bg-amber-500 before:absolute 
         before:-left-4 before:w-1 before:h-5`;
@@ -157,7 +157,7 @@ export function PunjabForm(props: DropdownSelectForms) {
     return (
         <>
             <div key={form.id} class={formClass}>
-                <div class="flex-1 w-[72%]">
+                <div class="flex-1 lg:w-[65%] xl:w-[72%]">
                     <p class="text-amber-700">{form.name}</p>
                 </div>
                 <div class="border-b-2 border-amber-700 w-full opacity-10 absolute right-0 bottom-0"></div>
@@ -168,7 +168,7 @@ export function PunjabForm(props: DropdownSelectForms) {
                         <>
                             {
                                 ext === 'mp3' && (
-                                    <p class="flex items-center w-[15%] relative">
+                                    <p class="flex items-center lg:w-[15%]  relative">
                                         <audio controls>
                                             <source src={form.link} type="audio/ogg" />
                                             <source src={form.link} type="audio/mpeg" />
@@ -179,17 +179,17 @@ export function PunjabForm(props: DropdownSelectForms) {
                             }
                             {
                                 ext === 'pdf' && (
-                                    <p class="flex items-center w-[10%] relative">
+                                    <p class="flex items-center lg:w-[20%] xl:w-[10%] relative">
                                         <Progress valuePercent={progressValue} visibility={progressVisibility} />
                                     </p>
                                 )
                             }
-                            <p class="flex items-center w-[13%] relative">
+                            <p class="flex items-center lg:w-[20%] xl:w-[13%] relative">
                                 {
                                     ext === 'pdf' && (
                                         <>
                                             <span class="mr-2 cursor-pointer hover:scale-125 transition-all">
-                                                <img  onClick={(e) => openPreviewLink(form.link, e)} title="preview" class="w-full" src="/icons/preview.svg" alt="My Happy SVG"/>
+                                                <img  onClick={(e) => openPreviewLink(form.link, e)} title="preview" class="w-7s" src="/icons/preview.svg" alt="My Happy SVG"/>
                                             </span>
                                         </>
                                     )
