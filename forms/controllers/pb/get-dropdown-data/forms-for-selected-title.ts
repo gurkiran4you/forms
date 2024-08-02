@@ -1,5 +1,4 @@
 
-import logger from "../../../logs/log.ts";
 import { NestedGroup_m } from "../../../models/common.ts";
 import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
 import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
@@ -89,7 +88,7 @@ export async function getPbFormsForTitle(category: string, id: string) {
     }
     catch (err) {
         console.log(err);
-        logger.error(`Unable to get form for selected category: ${category} and title id: ${id}. Error: ${err}`)
+        console.error(`Unable to get form for selected category: ${category} and title id: ${id}. Error: ${err}`)
         return null;
       }
 } 

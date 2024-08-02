@@ -1,4 +1,3 @@
-import logger from "../../../logs/log.ts";
 import { PbCeo } from "../../../schemas/pb/ceo.ts";
 import { PbGeneral } from "../../../schemas/pb/general.ts";
 import { PbMedicalCouncil } from "../../../schemas/pb/medical-council.ts";
@@ -56,7 +55,7 @@ export async function getPbCategoryTitles(category: string) {
         }
     }
     catch (err) {
-        logger.error(`Unable to get dropdown data for ${category} forms. Error: ${err}`)
+        console.error(`Unable to get dropdown data for ${category} forms. Error: ${err}`)
         return null;
       }
 } 

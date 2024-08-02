@@ -21,7 +21,7 @@ type DropdownSelectForms = {
 export function PunjabForm(props: DropdownSelectForms) {
 
     const [progressValue, setProgressValue] = useState('0');
-    const [progressVisibility, setprogressVisibility] = useState('invisible');
+    const [progressVisibility, setprogressVisibility] = useState('hidden');
 
     const { form, category, dialogID, nested = false, previewDialogID, categoryTitle = '' } = props as DropdownSelectForms;
 
@@ -148,7 +148,7 @@ export function PunjabForm(props: DropdownSelectForms) {
         return { pdf, normalizedName};
     }
 
-    let formClass = `flex justify-between items-center my-2 py-2 relative`;
+    let formClass = `flex justify-end items-center my-2 py-2 relative`;
     if (nested) {
         formClass += ` ml-8 before:content-[''] before:bg-amber-500 before:absolute 
         before:-left-4 before:w-1 before:h-5`;
@@ -157,46 +157,56 @@ export function PunjabForm(props: DropdownSelectForms) {
     return (
         <>
             <div key={form.id} class={formClass}>
-                <div class="flex">
+                <div class="flex-1 w-[72%]">
                     <p class="text-amber-700">{form.name}</p>
                 </div>
                 <div class="border-b-2 border-amber-700 w-full opacity-10 absolute right-0 bottom-0"></div>
                 {
                     (form.link.trim() === '') ? (
-                        <p class="text-red-200">This form is not available, please reach out to concerned authority</p>
+                        <p class="text-red-200 w-[28%]">This form is not available, please reach out to concerned authority</p>
                     ) : (
-                        <p class="flex items-center">
+                        <>
                             {
                                 ext === 'mp3' && (
-                                    <audio controls>
-                                    <source src={form.link} type="audio/ogg" />
-                                    <source src={form.link} type="audio/mpeg" />
-                                    Your browser does not support the audio element.
-                                </audio>
+                                    <p class="flex items-center w-[15%] relative">
+                                        <audio controls>
+                                            <source src={form.link} type="audio/ogg" />
+                                            <source src={form.link} type="audio/mpeg" />
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </p>
                                 )
                             }
                             {
                                 ext === 'pdf' && (
-                                    <>
+                                    <p class="flex items-center w-[10%] relative">
                                         <Progress valuePercent={progressValue} visibility={progressVisibility} />
-                                        <span class="mr-2 cursor-pointer hover:scale-125 transition-all">
-                                            <img  onClick={(e) => openPreviewLink(form.link, e)} title="preview" class="w-full" src="/icons/preview.svg" alt="My Happy SVG"/>
-                                        </span>
-                                    </>
+                                    </p>
                                 )
                             }
+                            <p class="flex items-center w-[13%] relative">
+                                {
+                                    ext === 'pdf' && (
+                                        <>
+                                            <span class="mr-2 cursor-pointer hover:scale-125 transition-all">
+                                                <img  onClick={(e) => openPreviewLink(form.link, e)} title="preview" class="w-full" src="/icons/preview.svg" alt="My Happy SVG"/>
+                                            </span>
+                                        </>
+                                    )
+                                }
 
-                            <a href={form.link} target="_blank" class="mr-2 hover:scale-125 transition-all">
-                                <img title="Download" src={iconPath} alt="Download form"/>
-                            </a>
-                            <span 
-                                title="Download offline form" 
-                                onClick={() => openOfflineLink(form.link)} 
-                                class="flex items-center text-xs hover:underline cursor-pointer">
-                                <img  class="w-3" src="/icons/question.svg" alt="My Happy SVG"/>
-                                &nbsp;Not Working ?
-                            </span>
-                        </p>
+                                <a href={form.link} target="_blank" class="mr-2 hover:scale-125 transition-all">
+                                    <img title="Download" src={iconPath} alt="Download form"/>
+                                </a>
+                                <span 
+                                    title="Download offline form" 
+                                    onClick={() => openOfflineLink(form.link)} 
+                                    class="flex absolute right-0 items-center text-xs hover:underline cursor-pointer">
+                                    <img  class="w-3" src="/icons/question.svg" alt="My Happy SVG"/>
+                                    &nbsp;Not Working ?
+                                </span>
+                            </p>
+                        </>
                     )
                 }
             </div>

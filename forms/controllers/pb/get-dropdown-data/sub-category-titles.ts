@@ -1,4 +1,3 @@
-import logger from "../../../logs/log.ts";
 import { PbPseb, PbPsebSyllabus } from "../../../schemas/pb/pseb.ts";
 
 export async function getPbCategorySubTitles(category: string, id: string) {
@@ -19,7 +18,7 @@ export async function getPbCategorySubTitles(category: string, id: string) {
         }
     }
     catch (err) {
-        logger.error(`Unable to get dropdown data for sub-category: ${category} forms. Error: ${err}`)
+        console.error(`Unable to get dropdown data for sub-category: ${category} forms. Error: ${err}`)
         return null;
       }
 } 

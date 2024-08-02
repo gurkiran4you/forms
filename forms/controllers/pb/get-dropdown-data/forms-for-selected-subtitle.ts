@@ -1,5 +1,4 @@
-import logger from "../../../logs/log.ts";
-import { PbPseb, PbPsebForm, PbPsebSyllabus } from "../../../schemas/pb/pseb.ts";
+import { PbPsebForm, PbPsebSyllabus } from "../../../schemas/pb/pseb.ts";
 
 
 export async function getPbFormsForSubTitle(category: string, subtitleId: string) {
@@ -24,7 +23,7 @@ export async function getPbFormsForSubTitle(category: string, subtitleId: string
     }
     catch (err) {
         console.log(err);
-        logger.error(`Unable to get form for selected category: ${category} and title: ${subtitleId}. Error: ${err}`)
+        console.error(`Unable to get form for selected category: ${category} and title: ${subtitleId}. Error: ${err}`)
         return null;
       }
 } 

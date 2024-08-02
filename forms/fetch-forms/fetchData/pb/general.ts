@@ -5,25 +5,25 @@ import { PbGeneralArr } from "../../model_json/pb/general.ts";
 import { FormJson, NestedGroupJson } from "../../model_json/common.ts";
 import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
-import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
-import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
+import { uploadFile } from "../../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
 import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
+import { getBucket } from "../../../gcloud/get-bucket.ts";
 
 
 
 export const initiateGeneralPb = async () => {
 
-    // await initiateGeneralPbFetchData();
-    // await initiateGeneralPbStoreFiles();
+    await initiateGeneralPbFetchData();
+    await initiateGeneralPbStoreFiles();
 }
 
 const initiateGeneralPbFetchData = async() => {
 
     const response = await fetch('https://punjab.gov.in/forms/');
     if (response.status !== STATUS_CODE.OK) {
-        logger.error('unable to fetch pb general forms');
+        console.error('unable to fetch pb general forms');
         return;
     }
     const $ = cheerio.load(await response.text());
@@ -163,7 +163,7 @@ const downloadAndStorePdf = async (link: string, fileName: string, bucket: Bucke
         });
 
         if (response.status != STATUS_CODE.OK) {
-            logger.error(`Unable to fetch the file: ${link}`);
+            console.error(`Unable to fetch the file: ${link}`);
             return;
         }
 
@@ -176,6 +176,6 @@ const downloadAndStorePdf = async (link: string, fileName: string, bucket: Bucke
         if (perms.state === "granted") {
             console.log('granted');
         }
-        logger.error(`Unable to safe pdf file for Punjab General forms. Link:${link}. Error is: ${e}`)
+        console.error(`Unable to safe pdf file for Punjab General forms. Link:${link}. Error is: ${e}`)
     }
 }

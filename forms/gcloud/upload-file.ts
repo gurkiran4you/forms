@@ -1,17 +1,5 @@
-import {Bucket, Storage} from "npm:@google-cloud/storage";
-import * as path from "jsr:@std/path";
+import {Bucket} from "npm:@google-cloud/storage";
 import "jsr:@std/dotenv/load";
-
-
-export const getBucket = () => {
-    const authJson = Deno.env.get('GCP_CREDENTIALS') || "{}";
-    const jsonAuth = JSON.parse(authJson);
-    const gc = new Storage({
-        credentials: jsonAuth,
-        projectId: jsonAuth.project_id,
-    });
-    return gc.bucket('forms_and_such');
-}
 
 export const uploadFile = async (bucket: Bucket, fileName: string, response: Response) => {
     try {

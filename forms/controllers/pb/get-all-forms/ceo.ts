@@ -1,4 +1,3 @@
-import logger from "../../../logs/log.ts";
 import { Form_m } from "../../../models/common.ts";
 import { PbCeo_m } from "../../../models/pb/ceo.ts";
 import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
@@ -28,7 +27,7 @@ export const getCeoForms = async({response} : {response: any}) => {
         return;
     }
     catch (err) {
-        logger.error(`Unable to get all pspcl forms. Error: ${err}`)
+        console.error(`Unable to get all pspcl forms. Error: ${err}`)
         return;
       }
 }

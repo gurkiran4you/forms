@@ -4,22 +4,21 @@ import { STATUS_CODE } from 'jsr:@oak/commons/status';
 import { FormJson, NestedGroupJson } from "../../model_json/common.ts";
 import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
-import { copy, readerFromStreamReader } from "https://deno.land/std@0.152.0/streams/conversion.ts";
-import logger from "../../../logs/log.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { PbTransportArr } from "../../model_json/pb/transport.ts";
 import { PbTransport, PbTransportForm } from "../../../schemas/pb/transport.ts";
 import { normalize } from "https://deno.land/std@0.224.0/url/normalize.ts";
-import { getBucket, uploadFile } from "../../gcloud/upload-file.ts";
+import { uploadFile } from "../../../gcloud/upload-file.ts";
 import { Bucket } from "npm:@google-cloud/storage";
+import { getBucket } from "../../../gcloud/get-bucket.ts";
 
 
 const BASE_URL = 'http://punjabtransport.org/';
 
 export const intitiateTransportPb = async () => {
 
-    // await initiateTransportPbFetchData();
-    // await initiateTransportPbStoreFiles();
+    await initiateTransportPbFetchData();
+    await initiateTransportPbStoreFiles();
 }
 
 const initiateTransportPbFetchData = async() => {
@@ -31,7 +30,7 @@ const initiateTransportPbFetchData = async() => {
         }
     });
     if (response.status !== STATUS_CODE.OK) {
-        logger.error('unable to fetch pb transport forms', response);
+        console.error('unable to fetch pb transport forms', response);
         return;
     }
     const $ = cheerio.load(await response.text());
@@ -164,13 +163,13 @@ const downloadAndStorePdf = async (link: string, fileName: string, bucket: Bucke
         });
 
         if (response.status != STATUS_CODE.OK) {
-            logger.error(`Unable to fetch the file: ${link}`);
+            console.error(`Unable to fetch the file: ${link}`);
             return;
         }
 
         await uploadFile(bucket, fileName, response);
     } catch(e) {
         console.log('error: ', e);
-        logger.error(`Unable to safe pdf file for Punjab transport forms. Link:${link}. Error is: ${e}`)
+        console.error(`Unable to safe pdf file for Punjab transport forms. Link:${link}. Error is: ${e}`)
     }
 }
