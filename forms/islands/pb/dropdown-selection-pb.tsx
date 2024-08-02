@@ -54,7 +54,7 @@ export function DropdownSelectionPb(props: DropdownSelectForms) {
         }
     }
 
-    const formClass = `flex flex-auto grow items-center justify-around ${width}`;
+    const formClass = `flex flex-auto grow items-center justify-around lg:${width}`;
 
     return (
         <>
