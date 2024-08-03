@@ -17,13 +17,22 @@ export const handler: Handlers = {
             const uri = Deno.env.get('MONGO_URI') as string;
             await mongoose.connect(uri);
 
+            console.log('Pb fetch forms initiated, fetching categories');
+            
             await initiateCategoriesPb();
+            console.log('Pb fetch forms initiated, fetching general');
             await initiateGeneralPb();
+            console.log('Pb fetch forms initiated fetching pspcl');
             await initiatePspclPb();
+            console.log('Pb fetch forms initiated, fetching ceo');
             await initiateCeoPb();
+            console.log('Pb fetch forms initiated, fetching pseb');
             await initiatePsebPb();
+            console.log('Pb fetch forms initiated, fetching transport');
             await intitiateTransportPb();
+            console.log('Pb fetch forms initiated, fetching medical council');
             await intitiateMedicalCouncilPb();
+            console.log('Pb fetch forms finished')
             return new Response('Hello');
         }
         return new Response('nope');
