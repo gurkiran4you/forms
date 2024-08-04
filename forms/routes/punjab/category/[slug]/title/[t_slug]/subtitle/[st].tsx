@@ -5,6 +5,7 @@ import { getPbCategoryTitles } from "../../../../../../../controllers/pb/get-dro
 import { getPbFormsForSubTitle } from "../../../../../../../controllers/pb/get-dropdown-data/forms-for-selected-subtitle.ts";
 import { getPbCategorySubTitles } from "../../../../../../../controllers/pb/get-dropdown-data/sub-category-titles.ts";
 import { getPbFormTypes } from "../../../../../../../controllers/pb/get-form-types/types.ts";
+import { FailureToFetchDialogPb } from "../../../../../../../islands/pb/dialogs/dialog-pb-failure-to-fetch.tsx";
 import { OfflineFormDialogPb } from "../../../../../../../islands/pb/dialogs/dialog-pb-offline.tsx";
 import { PreviewDialogPb } from "../../../../../../../islands/pb/dialogs/dialog-pb-preview.tsx";
 import { DropdownSelectionPb } from "../../../../../../../islands/pb/dropdown-selection-pb.tsx";
@@ -65,6 +66,7 @@ export default function Home(props: PageProps<Data>) {
 
     const offlineFormId = 'offline-form-modal-pb-complex';
     const previewFormId = 'preview-form-modal-pb-simple';
+    const failureFormId = 'failure-form-modal-pb-simple';
 
   return (
       <>
@@ -84,6 +86,7 @@ export default function Home(props: PageProps<Data>) {
 
        <OfflineFormDialogPb id={offlineFormId} />
        <PreviewDialogPb id={previewFormId} />
+       <FailureToFetchDialogPb id={failureFormId} />
       </>
   );
 }

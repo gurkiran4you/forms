@@ -41,7 +41,10 @@ export function PunjabForm(props: DropdownSelectForms) {
         setprogressVisibility('block');
 
         try {
-            const { pdf, normalizedName } = await getOfflineFormPb(link);
+            const { pdf, normalizedName } = await getOfflineFormPb(link, self);
+            if (pdf == null) {
+                return;
+            }
             const url = window.URL.createObjectURL(pdf);
 
 
@@ -107,15 +110,21 @@ export function PunjabForm(props: DropdownSelectForms) {
     }
 
     const openOfflineLink = async (link: string) => {
+        const success = await downloadOfflineLink(link)
+        if (!success) {
+            return;
+        }
         const modal = document.querySelector(`#${dialogID}`) as HTMLDialogElement;
         if (!modal) {
             return;
         }
         modal.showModal();
-        await downloadOfflineLink(link)
     } 
     const downloadOfflineLink = async (link: string) => {
         const { pdf, normalizedName } = await getOfflineFormPb(link);
+        if (pdf == null) {
+            return null;
+        }
         const aTag = document.querySelector(`#${dialogID} #download-pdf-a`) as HTMLAnchorElement;
 
         const url = window.URL.createObjectURL(pdf);
@@ -123,7 +132,7 @@ export function PunjabForm(props: DropdownSelectForms) {
         aTag.href = url;
     } 
 
-    const getOfflineFormPb =  async(link: string) => {
+    const getOfflineFormPb =  async(link: string, previewElem?: HTMLSpanElement) => {
         let normalizedName = '';
         if (categoryTitle.toLowerCase() === 'ceo') {
             const params = link.split('?')[1];
@@ -145,6 +154,25 @@ export function PunjabForm(props: DropdownSelectForms) {
         });
 
         const pdf = await response.blob();
+
+        // check if file not found
+        if (pdf.size === 16) {
+            // open failure dialog
+            setProgressValue('0');
+            setprogressVisibility('hidden');
+            if (previewElem) {
+                previewElem.classList.remove('pointer-events-none');
+            }
+            
+            const dialog = document.querySelector(`#failure-form-modal-pb-simple`) as HTMLDialogElement;
+            if (dialog == null) {
+                console.log('unable to fetch form');
+                return {pdf: null, normalizedName};
+            }
+            dialog.showModal();
+            return {pdf: null, normalizedName};;
+        } 
+
         return { pdf, normalizedName};
     }
 
@@ -179,7 +207,7 @@ export function PunjabForm(props: DropdownSelectForms) {
                             }
                             {
                                 ext === 'pdf' && (
-                                    <p class="flex items-center lg:w-[20%] xl:w-[10%] relative">
+                                    <p class="flex items-center lg:w-[20%] xl:w-[12%] relative">
                                         <Progress valuePercent={progressValue} visibility={progressVisibility} />
                                     </p>
                                 )
