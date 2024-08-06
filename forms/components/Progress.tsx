@@ -14,7 +14,12 @@ export function Progress(props: ProgressProps) {
 
     return (
         <section class={className}>
-            <progress class="bg-amber-400" id="file" max="100" value={valuePercent}>{valuePercent} %</progress>
+            {
+                valuePercent === '0' && <progress id="file">{valuePercent} %</progress>
+            }
+            {
+                valuePercent !== '0' && <progress id="file" max="100" value={valuePercent}>{valuePercent} %</progress>
+            }
         </section>
     );
 }
