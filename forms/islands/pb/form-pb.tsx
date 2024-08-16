@@ -8,6 +8,7 @@ import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import * as pdfjsLib from "npm:pdfjs-dist"
 import { Progress } from "../../components/Progress.tsx";
 import { useState } from 'preact/hooks';
+import 'https://deno.land/x/corejs@v3.37.1/index.js';
 
 type DropdownSelectForms = {
     form: Form_m,
