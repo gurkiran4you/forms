@@ -124,13 +124,14 @@ export function PunjabForm(props: DropdownSelectForms) {
     const downloadOfflineLink = async (link: string) => {
         const { pdf, normalizedName } = await getOfflineFormPb(link);
         if (pdf == null) {
-            return null;
+            return false;
         }
         const aTag = document.querySelector(`#${dialogID} #download-pdf-a`) as HTMLAnchorElement;
 
         const url = window.URL.createObjectURL(pdf);
         aTag.download = normalizedName;
         aTag.href = url;
+        return true;
     } 
 
     const getOfflineFormPb =  async(link: string, previewElem?: HTMLSpanElement) => {
