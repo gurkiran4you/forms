@@ -7,7 +7,7 @@ import { normalize } from "https://deno.land/std@0.224.0/url/normalize.ts";
 import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
 import { uploadFile } from "../../../gcloud/upload-file.ts";
-import { Bucket } from "npm:@google-cloud/storage";
+import { Bucket } from "@google-cloud/storage";
 import { PbCeo, PbCeoForm } from "../../../schemas/pb/ceo.ts";
 import { getBucket } from "../../../gcloud/get-bucket.ts";
 

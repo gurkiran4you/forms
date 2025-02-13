@@ -1,4 +1,4 @@
-import {Bucket} from "npm:@google-cloud/storage";
+import {Bucket} from "@google-cloud/storage";
 import "jsr:@std/dotenv/load";
 
 export const uploadFile = async (bucket: Bucket, fileName: string, response: Response) => {

@@ -9,7 +9,7 @@ import { Types, startSession } from 'npm:mongoose@^6.7';
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { normalize } from "https://deno.land/std@0.224.0/url/normalize.ts";
 import { uploadFile } from "../../../gcloud/upload-file.ts";
-import { Bucket } from "npm:@google-cloud/storage";
+import { Bucket } from "@google-cloud/storage";
 import { Form_m } from "../../../models/common.ts";
 import { getBucket } from "../../../gcloud/get-bucket.ts";
 

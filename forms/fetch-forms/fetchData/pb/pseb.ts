@@ -6,7 +6,7 @@ import * as path from "jsr:@std/path";
 import { PbPseb_m } from "../../../models/pb/pseb.ts";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { uploadFile } from "../../../gcloud/upload-file.ts";
-import { Bucket } from "npm:@google-cloud/storage";
+import { Bucket } from "@google-cloud/storage";
 import { getBucket } from "../../../gcloud/get-bucket.ts";
 
 

@@ -7,7 +7,7 @@ import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { PbMedicalCouncil, PbMedicalCouncilForm } from "../../../schemas/pb/medical-council.ts";
 import { PbMedicalCouncilArr } from "../../model_json/pb/medical-council.ts";
 import { uploadFile } from "../../../gcloud/upload-file.ts";
-import { Bucket } from "npm:@google-cloud/storage";
+import { Bucket } from "@google-cloud/storage";
 import { getBucket } from "../../../gcloud/get-bucket.ts";
 
 export const intitiateMedicalCouncilPb = async () => {

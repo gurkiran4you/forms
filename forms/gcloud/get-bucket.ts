@@ -1,4 +1,4 @@
-import {Bucket, Storage} from "npm:@google-cloud/storage";
+import {Bucket, Storage} from "@google-cloud/storage";
 
 export const getBucket = (): Bucket => {
     if (Deno.env.get('GCP_CREDENTIALS')) {
