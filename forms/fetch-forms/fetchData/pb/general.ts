@@ -7,7 +7,7 @@ import * as path from "jsr:@std/path";
 import { Types, startSession } from "npm:mongoose@^6.7";
 import { normalizeFilename } from "../../utils/file-normalizer.ts";
 import { uploadFile } from "../../../gcloud/upload-file.ts";
-import { Bucket } from "npm:@google-cloud/storage";
+import { Bucket } from "@google-cloud/storage";
 import { PbGeneral, PbGeneralForm } from "../../../schemas/pb/general.ts";
 import { getBucket } from "../../../gcloud/get-bucket.ts";
 

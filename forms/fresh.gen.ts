@@ -21,7 +21,7 @@ import * as $pb_dialogs_dialog_pb_offline from "./islands/pb/dialogs/dialog-pb-o
 import * as $pb_dialogs_dialog_pb_preview from "./islands/pb/dialogs/dialog-pb-preview.tsx";
 import * as $pb_dropdown_selection_pb from "./islands/pb/dropdown-selection-pb.tsx";
 import * as $pb_form_pb from "./islands/pb/form-pb.tsx";
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {

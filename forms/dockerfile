@@ -1,4 +1,4 @@
-FROM denoland/deno:1.45.2
+FROM denoland/deno:2.1.9
 
 ARG GIT_REVISION
 ARG MONGO_URI
@@ -10,7 +10,7 @@ ENV GCP_CREDENTIALS=${GCP_CREDENTIALS}
 
 COPY . .
 RUN deno cache main.ts
-RUN deno run -A dev.ts build
+RUN deno run --env-file -A dev.ts build
 
 EXPOSE 8000
 
