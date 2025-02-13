@@ -49,7 +49,7 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_ID: true-kite-431022-p9 # TODO: update Google Cloud project id
+  PROJECT_ID: tranquil-gasket-450720-h5 # TODO: update Google Cloud project id
   GAR_LOCATION: asia-south2 # TODO: update Artifact Registry location
   SERVICE: deno-cloudrun-image-forms # TODO: update Cloud Run service name
   REGISTRY_SERVICE: forms-and-such

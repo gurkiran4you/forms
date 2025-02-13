@@ -8,7 +8,7 @@ export const getBucket = (): Bucket => {
             credentials: jsonAuth,
             projectId: jsonAuth.project_id,
         });
-        return gc.bucket('forms_and_such');
+        return gc.bucket('punjabi-forms');
     }
     const authJson = Deno.env.get('gcloud_storage_auth_file');
     const projectId = Deno.env.get('gcloud_project_id');
@@ -16,5 +16,5 @@ export const getBucket = (): Bucket => {
         keyFilename: authJson,
         projectId,
     });
-    return gc.bucket('forms_and_such');
+    return gc.bucket('punjabi-forms');
 }
