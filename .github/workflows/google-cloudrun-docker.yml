@@ -51,9 +51,9 @@ on:
 env:
   PROJECT_ID: tranquil-gasket-450720-h5 # TODO: update Google Cloud project id
   GAR_LOCATION: asia-south2 # TODO: update Artifact Registry location
-  SERVICE: deno-cloudrun-image-forms # TODO: update Cloud Run service name
-  REGISTRY_SERVICE: forms-and-such
-  ACTIVE_REGISTRY: deno-forms-image
+  SERVICE: punjab-forms # TODO: update Cloud Run service name
+  REGISTRY_SERVICE: punjab-forms
+  ACTIVE_REGISTRY: deno-image-forms
   REGION: asia-south2 # TODO: update Cloud Run service region
 
 jobs:
