@@ -14,7 +14,6 @@ import { getBucket } from "../../../gcloud/get-bucket.ts";
 const BASE_URL = 'https://www.ceopunjab.gov.in/';
 
 export const initiateCeoPb = async () => {
-
     await initiateCeoPbFetchData();
     await initiateGeneralPbStoreFiles();
 }

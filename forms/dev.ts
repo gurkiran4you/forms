@@ -8,7 +8,7 @@ const uri = Deno.env.get('MONGO_URI') as string;
 if (uri) {
     await mongoose.connect(uri);
 } else {
-    await mongoose.connect("mongodb://localhost:27017");
+    // await mongoose.connect("mongodb://localhost:27017");
 }
 
 await dev(import.meta.url, "./main.ts", config);
